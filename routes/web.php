@@ -59,8 +59,10 @@ Route::group(['prefix' => 'admin', 'middleware' =>['isadmin']], function(){
     Route::get('/edit/holidays/{id}', [AdminController::class, 'editHolidays'])->name('edit-holidays');
     Route::post('/upate/holiday/{id}', [AdminController::class, 'updateHoliday'])->name('updated-holiday');
     Route::get('/show/activites', [AdminController::class, 'viewAllUserActivities'])->name('show-user-activity');
-    Route::get('/edit/activity/{id}', [AdminController::class, 'editUserActivity'])->name(('edit-activity'));
+    Route::get('/edit/activity/{id}', [AdminController::class, 'editUserActivity'])->name(('edit-admin-activity'));
     Route::post('/update/activity/{id}', [AdminController::class, 'updateUserActivity'])->name(('update-activity'));
+    Route::get('/get/admin/password', [AdminController ::class, 'getAdminPassword'])->name('admin-password');
+    Route::post('/save/admin/password', [AdminController::class, 'storeAdminPassword'])->name(('save-admin-password'));
 
 
 

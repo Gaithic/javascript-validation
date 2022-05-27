@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Contracts\DataTable;
 use Yajra\DataTables\Facades\DataTables;
+use App\Rules\MatchOldPassword;
 
 
 class AdminController extends Controller
@@ -243,7 +244,7 @@ class AdminController extends Controller
 
             return DataTables::of($data)
                 ->addIndexColumn()->addColumn('action', function($row){
-                    $btn= '<a href="'.route('edit-activity', ['id' => $row->id]).'"class=dit btn btn-primay btn-sm>View</a>';
+                    $btn= '<a href="'.route('edit-admin-activity', ['id' => $row->id]).'"class=dit btn btn-primay btn-sm>View</a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])->make(true);
@@ -275,7 +276,34 @@ class AdminController extends Controller
             return back()->with('success', "Activity Updated Successfully!!");
         }
     }
- 
+    
+
+    public function getAdminPassword(){
+        return view('users.admin.changePassword');
+    }
+
+    public function storeAdminPassword(Request $request){
+        $request->validate([
+
+            'current_password' => ['required', new MatchOldPassword],
+
+            'new_password' => ['required'],
+
+            'new_confirm_password' => ['same:new_password'],
+
+        ]);
+
+
+
+       $newpassword =  User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
+    
+       if($newpassword){
+           return back()->with('success', "your Password is updated...");
+       }else{
+        return back()->with('success', "Oops something Went Wrong...");
+       }
+       
+    }
 
     public function destroy($id){
         $user = User::findOrFail($id);

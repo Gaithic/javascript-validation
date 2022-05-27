@@ -335,7 +335,13 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-running"></i></span>
                                     <select  name="status" id="status">
-                                        <option value="{{$user->status}}" style="color: black;  font-weight:900;">{{$user->status }}</option>
+                                        <option value="{{$user->status}}" style="color: black;  font-weight:900;">
+                                            @if ($user->status)
+                                                Approved
+                                            @else
+                                                Not Approved
+                                            @endif
+                                        </option>
                                         <option value="1" style="color: green;  font-weight:900;">Approve</option>
                                         <option value="0" style="color: red; font-weight:900;">Reject</option>
 
@@ -353,20 +359,20 @@
 
                     <!-- /.card-body -->
                 </div>
-
+            
 
                 <div class="form-submit">
-                    <input type="submit" value="Update" class="btn btn-success" id="submit" name="submit" class="submit"/>
-                    <a href="{{ route('manage-users')}}">Cancel</a>
-                    <a href="{{ route('delete-user', ['id' => $user->id]) }}">Delete</a>
+                    <input type="submit" value="Update" class="btn btn-success" id="submit" name="submit" class="submit"/>               
+                    <a href="{{ route('delete-user', ['id' => $user->id]) }}" class="button delete-confirm">Delete</a>
                 </div>
             </form>
+    
     </div>
-
 </section>
 @push('scripts')
     <script src="{{ asset('/asset/js/admin/createUserFormValidate.js') }}"></script>
 @endpush
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script>
@@ -380,29 +386,35 @@
    }
 </script>
 <script>
-    $("#delete-button").click(function(){
-        if(confirm("Are you sure you want to delete this?")){
-            $("#delete-button").attr("href", "query.php?ACTION=delete&ID='1'");
-        }
-        else{
-            return false;
+  $('.delete-confirm').on('click', function (event) {
+    event.preventDefault();
+    const url = $(this).attr('href');
+    swal({
+        title: 'Are you sure?',
+        text: 'This record and it`s details will be permanantly deleted!',
+        icon: 'warning',
+        buttons: ["Cancel", "Yes!"],
+    }).then(function(value) {
+        if (value) {
+            window.location.href = url;
         }
     });
+});
 </script>
 <script>
    const togglePassword = document.querySelector("#togglePassword");
         const password = document.querySelector("#password");
 
         togglePassword.addEventListener("click", function () {
-            // toggle the type attribute
+
             const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
             password.setAttribute('type', type);
             
-            // toggle the icon
+
             this.classList.toggle("fa-lock");
         });
 
-        // prevent form submit
+
         const form = document.querySelector("form");
         form.addEventListener('submit', function (e) {
             e.preventDefault();

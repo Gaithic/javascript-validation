@@ -3,6 +3,8 @@ function activityCalender(){
     if(name==''){
         document.getElementById('nameError').innerHTML = "Name is Required!!";
         return false;
+    }else{
+        document.getElementById('nameError').innerHTML = "";
     }
 
     var date=document.getElementById("datetime").value;
@@ -21,18 +23,24 @@ function activityCalender(){
         if(checkDate > equalDate){
             document.getElementById('dateError').innerHTML = "Date Cannot be Greater than Today!!";
             return false;
+        }else{
+            document.getElementById('dateError').innerHTML = "";
         }
     }
     if(checkMonth>=equalMonth){
         if(checkDate<equalDate){
             document.getElementById('dateError').innerHTML = "Date Cannot be less than Today!!";
             return false;
+        }else{
+            document.getElementById('dateError').innerHTML = "";
         }
     }
     else if(checkMonth<equalMonth){
         if(checkYear<equalYear){
             document.getElementById('dateError').innerHTML = "Date Cannot be less than Today!!";
             return false;
+        }else{
+            document.getElementById('dateError').innerHTML = "";
         }
     }
     
@@ -41,6 +49,8 @@ function activityCalender(){
     if(activity==''){
         document.getElementById('activityError').innerHTML = "Select Activity List";
         return false;
+    }else{
+        document.getElementById('activityError').innerHTML = "";
     }
 
 
@@ -49,6 +59,8 @@ function activityCalender(){
     if(office==''){
         document.getElementById('officeError').innerHTML = "Select Your Office!!";
         return false;
+    }else{
+        document.getElementById('officeError').innerHTML = "";
     }
 
     var desciption = document.getElementById('description').value;
@@ -56,6 +68,8 @@ function activityCalender(){
     if(desciption==''){
         document.getElementById('desciptionError').innerHTML = "Add work Desciption!!";
         return false;
+    }else{
+        document.getElementById('desciptionError').innerHTML = "";
     }
  
    

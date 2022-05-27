@@ -44,17 +44,26 @@ class UserController extends Controller
     }
 
     public function saveActivity(userActivity $request){
+       $today = date('Y-m-d');
+       if($request->datetime<$today){
+            return back()->with('error', 'Task is added to the current date only');
+       }else{
         $activity = new Activity();
         $activity->name = $request->name;
         $activity->description = $request->description;
         $activity->datetime  = $request->datetime;
         $activity->activityName = $request->activityName;
         $activity->user_id = Auth::user()->id;
-
+ 
         $res = $activity->save();
-        if($res){
-            return redirect()->intended(route('user.index'))->with('success', 'Task Created Successfully!!');
-        }
+            if($res){
+                return redirect()->intended(route('user.index'))->with('success', 'Task Created Successfully!!');
+            }else{
+                return redirect()->intended(route('user.index'))->with('error', 'oops Something Went Wrong..');
+            }
+  
+       }
+      
     }
 
     public function showAllActivity(Request $request){
@@ -121,7 +130,13 @@ class UserController extends Controller
 
 
 
-        User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
-
+       $newpassword =  User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
+    
+       if($newpassword){
+           return back()->with('success', "your Password is updated...");
+       }else{
+        return back()->with('success', "Oops something Went Wrong...");
+       }
+       
     }
 }

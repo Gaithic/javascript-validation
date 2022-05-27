@@ -140,7 +140,7 @@
                           </div>
                         </div>
                         <div class="card-body">
-                          <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                          <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 1000px; max-width: 100%;"></canvas>
                         </div>
                         <!-- /.card-body -->
                       </div>

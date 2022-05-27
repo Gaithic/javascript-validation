@@ -26,7 +26,7 @@
 
 @section('content')
 <section class="vh-100">
-   <form action="{{ route('save-activity') }}" method="POST" onsubmit=" return activityCalender()">
+   <form action="{{ route('save-activity') }}" method="POST" onsubmit="return activityCalender()">
     @csrf
     <div class="container py-5 h-100">
       <div class="h1 text-center mt-3 mb-4 pb-3 text-center">
@@ -57,14 +57,17 @@
                     <div class="d-flex flex-row align-items-center" style="padding:10px;">
                       <label style="padding:10px;">Name:</label>
                      <input type="text" placeholder="Add Activity name" name="name" id="name" class="form-control"/>
-                      <span id="nameError" style="color: red;"></span>
-                      <a href="#!" data-mdb-toggle="tooltip" title="Set due date"></a>
-                      <div>
-
+                        <a href="#!" data-mdb-toggle="tooltip" title="Set due date"></a>
+                     <div>
+                      
+                       
                       </div>
                     </div>
                   </div>
                 </div>
+              </div>
+              <div style="margin: 5px;">
+                <span id="nameError" style="color: red;"></span>
               </div>
               @error('name')
               <div class="alert alert-danger" role="alert">
@@ -80,7 +83,6 @@
                     <div class="d-flex flex-row align-items-center">
                       <label style="padding:10px;" >Date:</label>
                      <input type="date" name="datetime" id="datetime"  class="form-control"/>
-                     <span id='dateError' style="color: red;"></span>
                       <a href="#!" data-mdb-toggle="tooltip" title="Set due date"></a>
                       <div>
 
@@ -88,6 +90,9 @@
                     </div>
                   </div>
                 </div>
+              </div>
+              <div style="margin: 5px;">
+                <span id="dateError" style="color: red;"></span>
               </div>
               @error('datetime')
               <div class="alert alert-danger" role="alert">
@@ -110,7 +115,7 @@
                         <option value="meeting">Meeting</option>
                         <option value="leave">Leave</option>
                      </select>
-                     <span id="activityError" style="color: red;"></span>
+                    
                       <a href="#!" data-mdb-toggle="tooltip" title="Set due date"></i></a>
                       <div>
 
@@ -118,6 +123,11 @@
                     </div>
                   </div>
                 </div>
+              </div>
+              <div style="margin: 5px;">
+                <span id="dateError" style="color: red;"></span>
+              </div>  <div style="margin: 5px;">
+                <span id="activityError" style="color: red;"></span>
               </div>
               @error('activity_list')
               <div class="alert alert-danger" role="alert">
@@ -135,7 +145,7 @@
                       <label style="padding:10px;" >Description:</label>
                       <input type="text" class="form-control form-control-lg"  name="description" id="description" class="form-control"
                         placeholder="Add Activity description..." >
-                        <span id="desciptionError" style="color: red;"></span>
+                        
                       <a href="#!" data-mdb-toggle="tooltip" title="Set due date"></i></a>
                       <div style="padding:10px; margin:5px;">
                         <input type="submit" class="btn btn-warning" value="Add Today Activity" style="font-weight:700; font-size:20px; background: #23af89;"/>
@@ -144,6 +154,9 @@
                   </div>
                 </div>
               </div>
+            </div>  <div style="margin: 5px;">
+              <span id="desciptionError" style="color: red;"></span>
+            </div>
               @error('description')
               <div class="alert alert-danger" role="alert">
                   <small>
@@ -164,5 +177,8 @@
     </div>
    </form>
   </section>
-
+@push('scripts')
+  <script  src="{{ asset('/asset/js/calender.js') }}"></script>
+    
+@endpush
 @endsection
