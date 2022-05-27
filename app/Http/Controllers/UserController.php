@@ -54,6 +54,12 @@ class UserController extends Controller
         $activity->datetime  = $request->datetime;
         $activity->activityName = $request->activityName;
         $activity->user_id = Auth::user()->id;
+        $activity->office_id  = Auth::user()->office_id;
+        $activity->district_id  = Auth::user()->district_id;
+        $activity->circle_id  = Auth::user()->circle_id;
+        $activity->division_id  = Auth::user()->division_id;
+        $activity->range_id   = Auth::user()->range_id ;
+
  
         $res = $activity->save();
         if($res){

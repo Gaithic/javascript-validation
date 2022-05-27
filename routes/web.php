@@ -52,8 +52,8 @@ Route::group(['prefix' => 'admin', 'middleware' =>['isadmin']], function(){
     Route::get('/admin-ajax-ranges', [AdminController::class, 'adminGetRanges'])->name('admin-ajax-ranges');
     Route::get('/create-holiday', [AdminController::class, 'createHoliday'])->name('create-holiday');
     Route::post('/save-holiday', [AdminController::class, 'saveHoliday'])->name('save-holiday');
-    Route::get('/show-chart', [ChartController::class, 'showChart'])->name('show-chart');
-    Route::get('/show-reports', [ChartController::class, 'employeesReportsView'])->name('show-reports');
+    Route::get('/show/chart', [ChartController::class, 'showChart'])->name('show-chart');
+    Route::get('/show/reports', [ChartController::class, 'getDistrict'])->name('show-reports');
     Route::get('/manage/holidays', [AdminController::class, 'manageHolidays'])->name('manage-holidays');
     Route::get('/show/holiday', [AdminController::class, 'showHoliday'])->name('show-holiday');
     Route::get('/edit/holidays/{id}', [AdminController::class, 'editHolidays'])->name('edit-holidays');
@@ -63,9 +63,8 @@ Route::group(['prefix' => 'admin', 'middleware' =>['isadmin']], function(){
     Route::post('/update/activity/{id}', [AdminController::class, 'updateUserActivity'])->name(('update-activity'));
     Route::get('/get/admin/password', [AdminController ::class, 'getAdminPassword'])->name('admin-password');
     Route::post('/save/admin/password', [AdminController::class, 'storeAdminPassword'])->name(('save-admin-password'));
-    Route::get('/get/report/users', [ChartController::class, 'getReportWithUserName'])->name('get-report-user');
-    Route::get('/activity/logs', [AuthController::class, 'acitivityLogs'])->name('activity-logs');
-    Route::get('/activity/logIn/logOut', [AuthController::class, 'acitivityLogInLogOut'])->name('activity-logIn-logOut');
+    Route::get('/activity/logs', [Logscontroller::class, 'acitivityLogInLogOut'])->name('activity-logIn-logOut');
+    // Route::get('/activity/logIn/logOut', [Logscontroller::class, 'acitivityLogInLogOut'])->name('activity-logIn-logOut');
 
 
 });

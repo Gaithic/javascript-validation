@@ -37,9 +37,9 @@
                                 <label>User Name:</label>
                                 <select class="select2" style="width: 100%;" id="userId" name="name">
                                     <option value="">Select Employee Name</option>
-                                    @foreach ($user as $use)
-                                        <option value="{{ $use->user_id }}">{{ $use->name }}</option>
-                                    @endforeach
+                                    @foreach ($users as $use)
+                                          <option value="">{{ $use->name }}</option>
+                                      @endforeach
                                 </select>
                             </div>
                           </div>
@@ -47,9 +47,9 @@
                           <div class="col-3">
                               <div class="form-group">
                                   <label>Designation:</label>
-                                  <select class="select2" style="width: 100%;">
+                                  <select class="select2" style="width: 100%;" id="designation">
                                       <option value="">Select Designation Name</option>
-                                      @foreach ($user as $use)
+                                      @foreach ($users as $use)
                                           <option value="">{{ $use->designation }}</option>
                                       @endforeach
                                   </select>
@@ -60,8 +60,8 @@
                                   <label>Districts:</label>
                                   <select class="select2" style="width: 100%;" id="district" name="district_id">
                                       <option value="">Select District Name</option>
-                                      @foreach ($districts as $district)
-                                        <option value="{{ $district->id }}">{{ $district->districtName }}</option>
+                                      @foreach ($districts as $dist)
+                                          <option value="{{ $dist->id }}">{{ $dist->districtName }}</option>
                                       @endforeach
                                   </select>
                               </div>
@@ -72,6 +72,9 @@
                                 <label>Circles:</label>
                                 <select class="select2" style="width: 100%;" id="circle" name="circle_id">
                                     <option value="">Select Circle</option>
+                                    {{-- @foreach ($circles as $dist)
+                                    <option value="{{ $dist->id }}">{{ $dist->circleName }}</option>
+                                @endforeach --}}
                                 </select>
                             </div>
                         </div>
@@ -80,7 +83,10 @@
                           <div class="form-group">
                               <label>Division</label>
                               <select class="select2" style="width: 100%;" id="division" name="division_id">
-                                  <option value="">Select Crcle Name</option>
+                                  <option value="">Select Division Name</option>
+                                  {{-- @foreach ($divisions as $dist)
+                                  <option value="{{ $dist->id }}">{{ $dist->divisionName }}</option>
+                              @endforeach --}}
                               </select>
                           </div>
                       </div>
@@ -90,6 +96,9 @@
                             <label>Range</label>
                             <select class="select2" style="width: 100%;" id="range" name=>
                                 <option value="">Select Range</option>
+                                {{-- @foreach ($ranges as $dist)
+                                      <option value="{{ $dist->id }}">{{ $dist->rangesName }}</option>
+                                @endforeach --}}
                             </select>
                         </div>
                       </div>
@@ -150,47 +159,34 @@
       </div>
   </section>
 
-<script src="{{ asset('/asset/admin/plugins/chart.js/Chart.min.js')}}"></script>
+<script src="{{ asset('/asset/admin/plugins/chart.js/Chart.min.js')}}"></script>  
+
+
 <script>
+var ctx_live = document.getElementById("pieChart");
 
-let activity = '<?php echo json_encode($activity) ?>';
-let district = '<?php echo json_encode($districts) ?>';
-
-let jsonActivity = JSON.parse(activity);
-let jsonDist = JSON.parse(district);
-// console.log(jsonDist);
-let labels=[];
-let data=[];
-
-
-const ctx = document.getElementById('pieChart');
-const myChart = new Chart(ctx, {
-    type: 'pie',
-    data: {
-        labels:labels,
-        datasets: [{
-            label: 'Total Number of Employees Registered Per District',
-            data: data,
-            
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-            
-        }]
+let labels = [];
+let data  = [];
+let activity = [];
+var myChart = new Chart(ctx_live, {
+  type: 'pie',
+  data: {
+    labels: [],
+    datasets: [{
+      data: [],
+      borderWidth: 1,
+      borderColor:'#00c0ef',
+      label: 'liveCount',
+    }]
+  },
+  options: {
+    responsive: true,
+    title: {
+      display: true,
+      text: "Employee's Chart with different Selections...",
+    },
+    legend: {
+      display: false
     },
     options: {
         scales: {
@@ -199,77 +195,38 @@ const myChart = new Chart(ctx, {
             }
         }
     }
+  }
 });
 
-for(var i=0;i<jsonDist.length;i++){
-    labels.push(jsonDist[i].districtName);
-    data.push(jsonDist[i].userCount);
-}
-
-$.ajaxSetup({
-    headers: {
-    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
-
-$(document).ready(function(){
-  $('#userId').on('change', function(e){
-    var user_id = e.target.value;
+// logic to get new data
+var getData = function() {
+    let disrtict = '<?php echo json_encode($districts)?>';
+    let jsonDist = JSON.parse(disrtict);
+    var e = document.getElementById("district");
+    var strUser = e.value;
       $.ajax({
-        url: "{{ route('get-report-user')}}",
-        data:{
-          user_id: user_id
-        },
-        success:function (data){
-          
-          
+        url: '',
+        success: function(data) {
+          for(var i=0;i<jsonDist.length;i++){
+            // myChart.labels.push(jsonDist[i].districtName);
+              myChart.data.labels.push(jsonDist[i].districtName);
+              myChart.data.datasets[0].data.push(jsonDist[i].userCount);
+          }
+          myChart.update();
         }
-      })
-  })
-})
-
-$(document).ready(function () {
-        $('#district').on('change',function(e) {
-            var dist_id = e.target.value;
-            $.ajax({
-              url: "{{ route('get-report-user')}}"
-            })
-        });
-
-        $()
-    });
+      });
+};
 
 
 
 
 
 
-
-//   let activity = '<?php echo json_encode($activity) ?>';
-//   let district = '<?php echo json_encode($districts) ?>';
-
-//   let jsonActivity = JSON.parse(activity);
-//   let jsonDist = JSON.parse(district);
-// // console.log(jsonDist);
-// let labels=[];
-// let data=[];
-
-// for(var i=0;i<jsonDist.length;i++){
-//     labels.push(jsonDist[i].districtName);
-//     data.push(jsonDist[i].userCount);
-// }
-
-// for(var i=0; )
-
-
-
-console.log(labels,data);
-
-
-
-
-
+const district = document.getElementById('district');
+district.addEventListener('change', getData);
 
 
 </script>
+
+
 @endsection

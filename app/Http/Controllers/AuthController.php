@@ -179,30 +179,13 @@ class AuthController extends Controller
     }
 
 
-        //user activity logs
-        public function acitivityLogs(){
-            $activityLogs = DB::table('activity_logs')->get();
-            dd($activityLogs);
-           
-        }
     
-        //user login logout logs
-    
-        public function acitivityLogInLogOut(){
-            $activityLogs = activityLog::all();
-            $activityLogs = activityLog::where('id', 0)->get();
-            return view('users.admin.logsPage', [
-                'activityLogs' => $activityLogs
-            ]);
-        }
-
 
         public function logout(Request $request) {
             $user = Auth::user();
 
             $isAdmin = $request->isAdmin;
             $date = Carbon::now();
-            //convert $date with toDayDteTimtString to day name and date or full date
             $todayDdate = $date->toDayDateTimeString();
             
             $activityLog = [
@@ -211,11 +194,9 @@ class AuthController extends Controller
                 'description' => 'logout',
                 'date_time' => $todayDdate
             ];
-            //insert into the dbms table name activity_log
-            // dd($activityLog);
+
             DB::table('activity_logs')->insert($activityLog);
-
-
+            
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerate();
