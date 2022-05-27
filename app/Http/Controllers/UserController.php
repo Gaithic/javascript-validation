@@ -46,7 +46,7 @@ class UserController extends Controller
     public function saveActivity(userActivity $request){
        $today = date('Y-m-d');
        if($request->datetime<$today){
-            return back()->with('error', 'Task is added to the current date only');
+            return back()->with('error', 'You can create task with current date');
        }else{
         $activity = new Activity();
         $activity->name = $request->name;
@@ -56,12 +56,10 @@ class UserController extends Controller
         $activity->user_id = Auth::user()->id;
  
         $res = $activity->save();
-            if($res){
-                return redirect()->intended(route('user.index'))->with('success', 'Task Created Successfully!!');
-            }else{
-                return redirect()->intended(route('user.index'))->with('error', 'oops Something Went Wrong..');
-            }
-  
+        if($res){
+            return redirect()->intended(route('user.index'))->with('success', 'Task Created Successfully!!');
+        }
+        dd($today);
        }
       
     }

@@ -35,10 +35,10 @@
                           <div class="col-3">
                             <div class="form-group">
                                 <label>User Name:</label>
-                                <select class="select2" style="width: 100%;" id="name" name="name">
+                                <select class="select2" style="width: 100%;" id="userId" name="name">
                                     <option value="">Select Employee Name</option>
                                     @foreach ($user as $use)
-                                        <option value="">{{ $use->name }}</option>
+                                        <option value="{{ $use->user_id }}">{{ $use->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -60,7 +60,7 @@
                                   <label>Districts:</label>
                                   <select class="select2" style="width: 100%;" id="district" name="district_id">
                                       <option value="">Select District Name</option>
-                                      @foreach ($activity as $district)
+                                      @foreach ($districts as $district)
                                         <option value="{{ $district->id }}">{{ $district->districtName }}</option>
                                       @endforeach
                                   </select>
@@ -89,7 +89,7 @@
                         <div class="form-group">
                             <label>Range</label>
                             <select class="select2" style="width: 100%;" id="range" name=>
-                                <option value="">search by District</option>
+                                <option value="">Select Range</option>
                             </select>
                         </div>
                       </div>
@@ -152,20 +152,16 @@
 
 <script src="{{ asset('/asset/admin/plugins/chart.js/Chart.min.js')}}"></script>
 <script>
-    let activity = '<?php echo json_encode($activity) ?>';
 
-    let jsonDist = JSON.parse(activity);
+let activity = '<?php echo json_encode($activity) ?>';
+let district = '<?php echo json_encode($districts) ?>';
+
+let jsonActivity = JSON.parse(activity);
+let jsonDist = JSON.parse(district);
 // console.log(jsonDist);
 let labels=[];
 let data=[];
 
-for(var i=0;i<jsonDist.length;i++){
-    labels.push(jsonDist[i].activityName);
-    data.push(jsonDist[i].userCount);
-}
-
-
-console.log(labels,data);
 
 const ctx = document.getElementById('pieChart');
 const myChart = new Chart(ctx, {
@@ -205,65 +201,75 @@ const myChart = new Chart(ctx, {
     }
 });
 
-// var pie_basic_element = document.getElementById('pieChart');
-// if (pie_basic_element) {
-//     var pie_basic = echarts.init(pie_basic_element);
-//     pie_basic.setOption({               
-        
-//         textStyle: {
-//             fontFamily: 'Roboto, Arial, Verdana, sans-serif',
-//             fontSize: 13
-//         },
+for(var i=0;i<jsonDist.length;i++){
+    labels.push(jsonDist[i].districtName);
+    data.push(jsonDist[i].userCount);
+}
 
-//         title: {
-//             text: 'Pie Chart Example',
-//             left: 'center',
-//             textStyle: {
-//                 fontSize: 17,
-//                 fontWeight: 500
-//             },
-//             subtextStyle: {
-//                 fontSize: 12
-//             }
-//         },
+$.ajaxSetup({
+    headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
 
-//         tooltip: {
-//             trigger: 'item',
-//             backgroundColor: 'rgba(0,0,0,0.75)',
-//             padding: [10, 15],
-//             textStyle: {
-//                 fontSize: 13,
-//                 fontFamily: 'Roboto, sans-serif'
-//             },
-//             formatter: "{a} <br/>{b}: {c} ({d}%)"
-//         },
+$(document).ready(function(){
+  $('#userId').on('change', function(e){
+    var user_id = e.target.value;
+      $.ajax({
+        url: "{{ route('get-report-user')}}",
+        data:{
+          user_id: user_id
+        },
+        success:function (data){
+          
+          
+        }
+      })
+  })
+})
 
-//         legend: {
-//             orient: 'horizontal',
-//             bottom: '0%',
-//             left: 'center',                   
-//             data: ['Fruit', 'Vegitable','Grains'],
-//             itemHeight: 8,
-//             itemWidth: 8
-//         },
+$(document).ready(function () {
+        $('#district').on('change',function(e) {
+            var dist_id = e.target.value;
+            $.ajax({
+              url: "{{ route('get-report-user')}}"
+            })
+        });
 
-//         series: [{
-//             name: 'Product Type',
-//             type: 'pie',
-//             radius: '70%',
-//             center: ['50%', '50%'],
-//             itemStyle: {
-//                 normal: {
-//                     borderWidth: 1,
-//                     borderColor: '#fff'
-//                 }
-//             },
-//             data: [
-//                data
-//             ]
-//         }]
-//     });
-// // }
+        $()
+    });
+
+
+
+
+
+
+
+//   let activity = '<?php echo json_encode($activity) ?>';
+//   let district = '<?php echo json_encode($districts) ?>';
+
+//   let jsonActivity = JSON.parse(activity);
+//   let jsonDist = JSON.parse(district);
+// // console.log(jsonDist);
+// let labels=[];
+// let data=[];
+
+// for(var i=0;i<jsonDist.length;i++){
+//     labels.push(jsonDist[i].districtName);
+//     data.push(jsonDist[i].userCount);
+// }
+
+// for(var i=0; )
+
+
+
+console.log(labels,data);
+
+
+
+
+
+
 
 </script>
 @endsection

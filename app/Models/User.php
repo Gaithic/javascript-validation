@@ -70,6 +70,12 @@ class User extends Authenticatable
        return $this->belongsTo(Range::class, 'range_id');
     }
 
+    
+    public function activity()
+    {
+       return $this->belongsTo(Range::class, 'user_id');
+    }
+
 
 
 

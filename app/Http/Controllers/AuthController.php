@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginValidation;
 use App\Http\Requests\RegisterFormValidation;
+use App\Models\activityLog;
 use App\Models\Circle;
 use App\Models\District;
 use App\Models\Division;
@@ -13,9 +14,12 @@ use App\Models\Range;
 use App\Models\User;
 use Carbon\Carbon;
 use DateTime;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use phpDocumentor\Reflection\DocBlock\Tags\See;
 
 class AuthController extends Controller
 {
@@ -157,13 +161,7 @@ class AuthController extends Controller
     }
 
 
-    public function logout(Request $request) {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerate();
-        return redirect()->intended(route('login-view'))->with('success', 'You logged out!!');
 
-    }
 
     public function dashboard(){
         $user = Auth::user();
@@ -181,6 +179,48 @@ class AuthController extends Controller
     }
 
 
+        //user activity logs
+        public function acitivityLogs(){
+            $activityLogs = DB::table('activity_logs')->get();
+            dd($activityLogs);
+           
+        }
+    
+        //user login logout logs
+    
+        public function acitivityLogInLogOut(){
+            $activityLogs = activityLog::all();
+            $activityLogs = activityLog::where('id', 0)->get();
+            return view('users.admin.logsPage', [
+                'activityLogs' => $activityLogs
+            ]);
+        }
 
+
+        public function logout(Request $request) {
+            $user = Auth::user();
+
+            $isAdmin = $request->isAdmin;
+            $date = Carbon::now();
+            //convert $date with toDayDteTimtString to day name and date or full date
+            $todayDdate = $date->toDayDateTimeString();
+            
+            $activityLog = [
+                'name' => $user->name,
+                'email' => $user->email,
+                'description' => 'logout',
+                'date_time' => $todayDdate
+            ];
+            //insert into the dbms table name activity_log
+            // dd($activityLog);
+            DB::table('activity_logs')->insert($activityLog);
+
+
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerate();
+            return redirect()->intended(route('login-view'))->with('success', 'You logged out!!');
+    
+        }
 
 }

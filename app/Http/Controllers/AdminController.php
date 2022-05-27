@@ -240,11 +240,15 @@ class AdminController extends Controller
 
     public function viewAllUserActivities(Request $request){
         if($request->ajax()){
-            $data= Activity::query()->orderBy("id", "desc");
+            $data= Activity::query()->with('user')->orderBy("id", "desc");
 
             return DataTables::of($data)
-                ->addIndexColumn()->addColumn('action', function($row){
-                    $btn= '<a href="'.route('edit-admin-activity', ['id' => $row->id]).'"class=dit btn btn-primay btn-sm>View</a>';
+                ->addIndexColumn()
+                ->editColumn('user_id', function($row){
+                    return $row->user->name;
+                })
+                ->addColumn('action', function($row){
+                    $btn= '<a href="'.route('edit-activity', ['id' => $row->id]).'"class=dit btn btn-primay btn-sm>View</a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])->make(true);
@@ -304,6 +308,8 @@ class AdminController extends Controller
        }
        
     }
+
+
 
     public function destroy($id){
         $user = User::findOrFail($id);

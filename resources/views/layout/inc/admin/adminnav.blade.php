@@ -181,7 +181,7 @@
           </li>
           
           <li class="nav-item">
-            <a href="{{ route('logs-activity') }}" class="nav-link">
+            <a href="{{ route('activity-logIn-logOut') }}" class="nav-link">
                 {{-- <i class="fa fa-sign-out-circle nav-icon" aria-hidden="true"></i> --}}
                 <i class="right fas fa-gear"></i>
                 {{-- <i class="fa fa-sign-out"></i> --}}

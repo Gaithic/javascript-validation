@@ -63,7 +63,9 @@ Route::group(['prefix' => 'admin', 'middleware' =>['isadmin']], function(){
     Route::post('/update/activity/{id}', [AdminController::class, 'updateUserActivity'])->name(('update-activity'));
     Route::get('/get/admin/password', [AdminController ::class, 'getAdminPassword'])->name('admin-password');
     Route::post('/save/admin/password', [AdminController::class, 'storeAdminPassword'])->name(('save-admin-password'));
-
+    Route::get('/get/report/users', [ChartController::class, 'getReportWithUserName'])->name('get-report-user');
+    Route::get('/activity/logs', [AuthController::class, 'acitivityLogs'])->name('activity-logs');
+    Route::get('/activity/logIn/logOut', [AuthController::class, 'acitivityLogInLogOut'])->name('activity-logIn-logOut');
 
 
 });
@@ -82,7 +84,4 @@ Route::group(['prefix' => 'users', 'middleware' => ['auth']], function(){
 
 });
 
-Route::group(['prefix' => 'logs'], function(){
-    Route::get('add-to-log', [Logscontroller::class, 'applicationLogs'])->name('add-logs');
-    Route::get('logActivity', [Logscontroller::class, 'logActivity'])->name('logs-activity');
-});
+

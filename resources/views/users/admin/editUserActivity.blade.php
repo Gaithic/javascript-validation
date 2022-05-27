@@ -29,7 +29,7 @@
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form  action="{{ route('update-activity',  ['id' => Auth::user()->id])}}"   method="post" onsubmit="return editActivityValidation()">
+        <form  action="{{ route('update-activity',  ['id' => Auth::user()->id])}}"   method="post" onsubmit=" return activityCalender()">
             @csrf
                 <div class="card-body">
                     <div class="form-group">
@@ -71,5 +71,9 @@
     
     </section>
 </div>
+@push('scripts')
+  <script  src="{{ asset('/asset/js/calender.js') }}"></script>
+    
+@endpush
 
 @endsection
