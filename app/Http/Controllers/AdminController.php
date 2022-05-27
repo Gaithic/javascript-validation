@@ -58,7 +58,7 @@ class AdminController extends Controller
             'districts' => $districts,
             'ranges' => $ranges,
             'circles' => $circles
-            
+
 
         ]);
     }
@@ -112,7 +112,7 @@ class AdminController extends Controller
         $offices = OfficesName::all();
         return response()->json([
             'ranges' => $ranges,
-            'districts' => $districts, 
+            'districts' => $districts,
         ]);
     }
 
@@ -266,7 +266,7 @@ class AdminController extends Controller
             'activities' => $activities
         ]);
     }
-    
+
 
     public function updateUserActivity(Request $request, $id){
         $activities = Activity::findOrFail($id);
@@ -280,7 +280,7 @@ class AdminController extends Controller
             return back()->with('success', "Activity Updated Successfully!!");
         }
     }
-    
+
 
     public function getAdminPassword(){
         return view('users.admin.changePassword');
@@ -300,13 +300,13 @@ class AdminController extends Controller
 
 
        $newpassword =  User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
-    
+
        if($newpassword){
            return back()->with('success', "your Password is updated...");
        }else{
         return back()->with('success', "Oops something Went Wrong...");
        }
-       
+
     }
 
 

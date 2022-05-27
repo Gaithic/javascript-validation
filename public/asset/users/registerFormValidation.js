@@ -99,10 +99,10 @@ function validateForm(){
                 document.getElementById('dobError').innerHTML= "";
             }
         }
-            
 
 
-        
+
+
     }
 
 
@@ -122,7 +122,7 @@ function validateForm(){
             var birthDayFullMonth = birthDay.getMonth();
             var birthDayFullDate  = birthDay.getDate();
             var dayOfBirth = birthDay.getDay();
-    
+
 
             var getJoiningYear = userJoiningYear.getFullYear();
             var getJoiningMonth  = userJoiningYear.getMonth();
@@ -135,8 +135,8 @@ function validateForm(){
             var getDateOfday = getDayOfJoning - dayOfBirth;
             var month_diff = new Date(getDifference)
 
-            
-            
+
+
 
            if(getDifference<18){
                 document.getElementById('dojError').innerHTML= "Age Difference Between Date of birth and Date of Joining Must be equal to grater than 18 Years!! ";
@@ -164,7 +164,7 @@ function validateForm(){
                         document.getElementById('dojError').innerHTML= "";
                     }
                 }
-             
+
             }
         }
     }
@@ -226,14 +226,14 @@ function validateForm(){
       return false;
 
     }
-    else if(email.charAt(email.length-4)!='.' && email.charAt(email.length-3)){
+    else if(email.charAt(email.length-3)!='.' && email.charAt(email.length-4)!='.'){
       document.getElementById('emailError').innerHTML="Invalid Email.";
       return false;
 
     }else{
         document.getElementById('emailError').innerHTML="";
     }
-    
+
   //contact field input validation
 
     if(contact==''){

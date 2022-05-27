@@ -16,14 +16,14 @@ class LogsController extends Controller
 
             return DataTables::of($data)
                 ->addIndexColumn()->addColumn('action', function($row){
-                    $btn= '<a href="'.route('edit-holidays', ['id' => $row->id]).'"class=dit btn btn-primay btn-sm>View</a>';
+                    $btn= '<a href="'.route('edit-holidays', ['id' => $row->id]).'"class=dit btn btn-primay btn-sm><i class="fa fa-trash"></i></a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])->make(true);
 
 
         }
-        
+
         return view('users.admin.logsPage');
     }
 }
