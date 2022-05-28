@@ -16,7 +16,7 @@ class LogsController extends Controller
 
             return DataTables::of($data)
                 ->addIndexColumn()->addColumn('action', function($row){
-                    $btn= '<a href="'.route('edit-holidays', ['id' => $row->id]).'"class=dit btn btn-primay btn-sm><i class="fa fa-trash"></i></a>';
+                    $btn= '<a href="'.route('delete-log', ['id' => $row->id]).'"class=dit btn btn-primay btn-sm><i class="fa fa-trash"></i></a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])->make(true);
@@ -25,5 +25,11 @@ class LogsController extends Controller
         }
 
         return view('users.admin.logsPage');
+    }
+
+    public function destroyLog($id){
+        $logs = activityLog::findOrFail($id);
+        $logs->delete();
+        return redirect()->intended(route('activity-logIn-logOut'))->with('success', 'Log Deleted Successfully');
     }
 }

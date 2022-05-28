@@ -28,23 +28,42 @@ class ChartController extends Controller
         ]);
     }
 
+   
+   
     public function getDistrict(){
         $users = User::all();
-        $districts = District::all();
-        foreach($districts as $dst){
-            $dst->userCount= DB::table('activities')->whereDistrictId($dst->id)->count();
-        }
-
         foreach($users as $use){
-            $use->count = DB::table('activities')->whereUserId($use->id)->count();
+            $use->activityCount = DB::table('activities')->whereUserId($use->id)->count();
         }
     	return view('users.admin.reports', [
-            'districts'=> $districts,
             'users' =>  $users
            
         ]);
      
     }
+
+
+
+    
+    public function getUserReport(Request $request)
+    {
+        $parent_id = $request->user_id;
+        $users = DB::table('activities')->where('user_id', $parent_id)->get();
+        return response()->json([
+            'users' => $parent_id,
+            'users' => $users
+        ]);
+   
+    }
+
+    public function getRangesReport(Request $request){
+        $division_id = $request->id;
+        $ranges = Division::where('id', $division_id)->with('ranges')->get();
+        return response()->json([
+            'ranges' => $ranges,
+        ]);
+    }
+
 
 
    

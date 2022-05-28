@@ -21,10 +21,10 @@
 @endsection
 
 @section('content')
-<div class="content-wrapper">
+
     <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
+  <section class="content-header">
+    <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1>Edit Holidays</h1>
@@ -60,10 +60,30 @@
 
           <div class="card-footer">
             <button type="submit" class="btn btn-primary">Edit Holiday</button>
+            <button type="submit" href="{{ route('delete-holiday', ['id' => $holidays->id]) }}" class="btn btn-primary delete-confirm">Delete Holiday</button>
           </div>
         </form>
       </div>
     </div><!-- /.container-fluid -->
-    </section>
-</div>
+
+
+<script src="{{ asset('/asset/js/sweetalert/sweetalert.min.js') }}"></script>
+<script>
+  $('.delete-confirm').on('click', function (event) {
+    event.preventDefault();
+    const url = $(this).attr('href');
+    swal({
+        title: 'Are you sure?',
+        text: 'This record and it`s details will be permanantly deleted!',
+        icon: 'warning',
+        buttons: ["Cancel", "Yes!"],
+    }).then(function(value) {
+        if (value) {
+            window.location.href = url;
+        }
+    });
+});
+</script>
+
+@endsection
 

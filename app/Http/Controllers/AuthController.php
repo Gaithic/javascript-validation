@@ -164,8 +164,8 @@ class AuthController extends Controller
 
 
     public function dashboard(){
-        $user = Auth::user();
         if(Auth::check()){
+            $user = Auth::user();
             if($user->isAdmin==1){
                 return redirect()->intended(route('admin-index'))->with('success', 'Welcome to Dashboard!!');
 

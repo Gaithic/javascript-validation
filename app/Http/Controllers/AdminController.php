@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AdminCreateUserValidation;
 use App\Models\Activity;
+use App\Models\activityLog;
 use App\Models\Circle;
 use App\Models\District;
 use App\Models\Division;
@@ -18,7 +19,8 @@ use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Contracts\DataTable;
 use Yajra\DataTables\Facades\DataTables;
 use App\Rules\MatchOldPassword;
-
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -237,10 +239,17 @@ class AdminController extends Controller
     }
 
 
+    public function deleteHoliday($id){
+        $holiday = Holidays::findOrFail($id);
+        $holiday->delete();
+        return redirect()->intended(route('show-holiday'))->with('success', 'Holiday Deleted Successfully');
+    }
+
+
 
     public function viewAllUserActivities(Request $request){
         if($request->ajax()){
-            $data= Activity::query()->with('user')->orderBy("id", "desc");
+            $data= Activity::query()->with('user')->orderBy("created_at", "desc");
 
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -248,7 +257,7 @@ class AdminController extends Controller
                     return $row->user->name;
                 })
                 ->addColumn('action', function($row){
-                    $btn= '<a href="'.route('edit-activity', ['id' => $row->id]).'"class=dit btn btn-primay btn-sm>View</a>';
+                    $btn= '<a href="'.route('edit-admin-activity', ['id' => $row->id]).'"class=dit btn btn-primay btn-sm>View</a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])->make(true);
@@ -269,18 +278,62 @@ class AdminController extends Controller
 
 
     public function updateUserActivity(Request $request, $id){
-        $activities = Activity::findOrFail($id);
-        $activities->user_id = $request->user_id;
-        $activities->name = $request->name;
-        $activities->description = $request->description;
-        $activities->activityName = $request->activityName;
-        $activities->datetime = $request->datetime;
-        $res = $activities->save();
-        if($res){
-            return back()->with('success', "Activity Updated Successfully!!");
+        $activity = Activity::findOrFail($id);
+        $today = date('Y-m-d');
+        if($today>$activity->created_at){
+            return back()->with('error', "Sorry you don't have a permission to Edit the Previous days activities...");
+        }else{
+            $user = Auth::user();
+            $isAdmin = $request->isAdmin;
+            $date = Carbon::now();
+            $todayDdate = $date->toDayDateTimeString();
+            
+            $activityLog = [
+                'name' => $user->name,
+                'email' => $user->email,
+                'description' => "Admin update activity",
+                'date_time' => $todayDdate
+            ];
+
+            
+            $activity->name = $request->name;
+            $activity->description = $request->description;
+            $activity->datetime  = $request->datetime;
+            $activity->activityName = $request->activityName;
+            $res = $activity->save();
+            DB::table('activity_logs')->insert($activityLog);
+
+            if($res){
+                // dd($activityLog);
+                return back()->with('success', 'Activity Updated Successfully...');
+            }else{
+                return back()->with('success', 'Something Went Wrong!!, Try again Later...');
+            }
         }
     }
 
+
+
+    public function deleteUserActivity($id){
+        $user = Auth::user();
+
+        $isAdmin = $user->isAdmin;
+        $date = Carbon::now();
+        $todayDdate = $date->toDayDateTimeString();
+        
+        $activityLog = [
+            'name' => $user->name,
+            'email' => $user->email,
+            'description' => 'Deleted by Admin',
+            'date_time' => $todayDdate
+        ];
+
+        DB::table('activity_logs')->insert($activityLog);
+
+        $holiday = Activity::findOrFail($id);
+        $holiday->delete();
+        return redirect()->intended(route('show-user-activity'))->with('success', 'Activity Deleted Successfully');
+    }
 
     public function getAdminPassword(){
         return view('users.admin.changePassword');
@@ -309,7 +362,18 @@ class AdminController extends Controller
 
     }
 
-
+    public function adminProfile(){
+        
+        $users = Activity::query()->with('user')->orderBy("created_at", "desc");
+        $activity = Activity::where('user_id',auth()->user()->id)->paginate(4);
+        // dd($activity);
+        return view('users.admin.profile.adminProfile',[
+            'users' => $users,
+            'activity' => $activity
+        
+        
+        ]);
+    }
 
     public function destroy($id){
         $user = User::findOrFail($id);

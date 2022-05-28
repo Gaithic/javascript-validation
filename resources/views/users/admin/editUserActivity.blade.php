@@ -29,7 +29,7 @@
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form  action="{{ route('update-activity',  ['id' => Auth::user()->id])}}"   method="post" onsubmit=" return activityCalender()">
+        <form  action="{{ route('update-user-activity',  ['id' => $activities->id])}}"   method="post" onsubmit=" return activityCalender()">
             @csrf
                 <div class="card-body">
                     <div class="form-group">
@@ -65,15 +65,32 @@
 
           <div class="card-footer">
             <button type="submit" class="btn btn-primary">Update Activity</button>
+            <a href="{{ route('delete-user-activity', ['id' => $activities->id]) }}" class="btn btn-primary delete-confirm">Delete</a>
           </div>
         </form>
 
     
     </section>
 </div>
+<script src="{{ asset('/asset/js/sweetalert/sweetalert.min.js') }}"></script>
 @push('scripts')
   <script  src="{{ asset('/asset/js/calender.js') }}"></script>
-    
+  <script>
+    $('.delete-confirm').on('click', function (event) {
+      event.preventDefault();
+      const url = $(this).attr('href');
+      swal({
+          title: 'Are you sure?',
+          text: 'This record and it`s details will be permanantly deleted!',
+          icon: 'warning',
+          buttons: ["Cancel", "Yes!"],
+      }).then(function(value) {
+          if (value) {
+              window.location.href = url;
+          }
+      });
+  });
+  </script>
 @endpush
 
 @endsection

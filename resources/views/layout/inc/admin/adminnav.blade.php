@@ -187,7 +187,16 @@
                 {{-- <i class="fa fa-sign-out"></i> --}}
               <p >Check Logs</p>
             </a>
-        </li>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{ route('admin-profile') }}" class="nav-link">
+                {{-- <i class="fa fa-sign-out-circle nav-icon" aria-hidden="true"></i> --}}
+                <i class="right fas fa-gear"></i>
+                {{-- <i class="fa fa-sign-out"></i> --}}
+              <p >Update Profile</p>
+            </a>
+          </li>
   
           <li class="nav-item">
               <a href="{{route('logout')}}" class="nav-link">

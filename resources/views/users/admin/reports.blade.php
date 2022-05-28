@@ -38,7 +38,7 @@
                                 <select class="select2" style="width: 100%;" id="userId" name="name">
                                     <option value="">Select Employee Name</option>
                                     @foreach ($users as $use)
-                                          <option value="">{{ $use->name }}</option>
+                                          <option value="{{ $use->id }}">{{ $use->name }}</option>
                                       @endforeach
                                 </select>
                             </div>
@@ -49,9 +49,9 @@
                                   <label>Designation:</label>
                                   <select class="select2" style="width: 100%;" id="designation">
                                       <option value="">Select Designation Name</option>
-                                      @foreach ($users as $use)
+                                      {{-- @foreach ($users as $use)
                                           <option value="">{{ $use->designation }}</option>
-                                      @endforeach
+                                      @endforeach --}}
                                   </select>
                               </div>
                           </div>
@@ -60,9 +60,9 @@
                                   <label>Districts:</label>
                                   <select class="select2" style="width: 100%;" id="district" name="district_id">
                                       <option value="">Select District Name</option>
-                                      @foreach ($districts as $dist)
+                                      {{-- @foreach ($districts as $dist)
                                           <option value="{{ $dist->id }}">{{ $dist->districtName }}</option>
-                                      @endforeach
+                                      @endforeach --}}
                                   </select>
                               </div>
                           </div>
@@ -160,70 +160,77 @@
   </section>
 
 <script src="{{ asset('/asset/admin/plugins/chart.js/Chart.min.js')}}"></script>  
-
-
 <script>
-var ctx_live = document.getElementById("pieChart");
-
-let labels = [];
-let data  = [];
-let activity = [];
-var myChart = new Chart(ctx_live, {
-  type: 'pie',
-  data: {
-    labels: [],
-    datasets: [{
-      data: [],
-      borderWidth: 1,
-      borderColor:'#00c0ef',
-      label: 'liveCount',
-    }]
-  },
-  options: {
-    responsive: true,
-    title: {
-      display: true,
-      text: "Employee's Chart with different Selections...",
-    },
-    legend: {
-      display: false
+  var ctx =  document.getElementById("pieChart");
+  let labels=[];
+  let data=[];
+  var myChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: [],
+      datasets: [{
+        data: [],
+        borderWidth: 1,
+        borderColor:'#00c0ef',
+        label: 'liveCount',
+      }]
     },
     options: {
-        scales: {
-            y: {
-                beginAtZero: false
-            }
-        }
+      responsive: true,
+      title: {
+        display: true,
+        text: "Employee's Chart with different Selections...",
+      },
+      legend: {
+        display: false
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: false
+              }
+          }
+      }
     }
+  })
+
+  var getData = function(){
+    let users = '<?php echo json_encode($users)?>';
+    let jsonUsers = JSON.parse(users);
+    var userField = document.getElementById('userId').value;
+    for(var i=0;i<jsonUsers.length;i++){
+        myChart.data.labels.push(jsonUsers[i].activityName);
+        myChart.data.datasets[0].data.push(jsonDist[i].userCount);
+    }
+    myChart.update();
   }
+
+  $.ajaxSetup({
+      headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+  });
+$(document).ready(function(){
+  $('#userId').on('change', function(e){
+      var user_id  = e.target.value;
+      $.ajax({
+        url: "{{ route('get-user-report') }}",
+        data : {
+          user_id : user_id
+        },
+        success:function(data){
+          const user = document.getElementById('userId');
+          user.addEventListener('change', getData);
+        }
+      })
+  });
 });
 
-// logic to get new data
-var getData = function() {
-    let disrtict = '<?php echo json_encode($districts)?>';
-    let jsonDist = JSON.parse(disrtict);
-    var e = document.getElementById("district");
-    var strUser = e.value;
-      $.ajax({
-        url: '',
-        success: function(data) {
-          for(var i=0;i<jsonDist.length;i++){
-            // myChart.labels.push(jsonDist[i].districtName);
-              myChart.data.labels.push(jsonDist[i].districtName);
-              myChart.data.datasets[0].data.push(jsonDist[i].userCount);
-          }
-          myChart.update();
-        }
-      });
-};
 
+ 
+</script>
 
-
-
-
-
-const district = document.getElementById('district');
-district.addEventListener('change', getData);
+<script>
 
 
 </script>

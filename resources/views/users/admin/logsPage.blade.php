@@ -37,7 +37,7 @@
                             <th>Activity Email</th>
                             <th>Activity Descrption</th>
                             <th>Activity Descrption</th>
-                            <th>View</th>
+                            <th class="delete-confirm">Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,6 +50,7 @@
 </section>
 
 @push('scripts')
+<script src="{{ asset('/asset/js/sweetalert/sweetalert.min.js') }}"></script>
     <script>
         $(function() {
             var table = $('#data-table').DataTable({
@@ -76,7 +77,25 @@
             });
         });
     </script>
+    <script>
+      $('.delete-confirm').on('click', function (event) {
+        event.preventDefault();
+        const url = $(this).attr('href');
+        swal({
+            title: 'Are you sure?',
+            text: 'This record and it`s details will be permanantly deleted!',
+            icon: 'warning',
+            buttons: ["Cancel", "Yes!"],
+        }).then(function(value) {
+            if (value) {
+                window.location.href = url;
+            }
+        });
+    });
+    </script>
+    
 @endpush
+
 
 
 @endsection

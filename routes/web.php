@@ -48,6 +48,7 @@ Route::group(['prefix' => 'admin', 'middleware' =>['isadmin']], function(){
     Route::get('/manage/users', [AdminController::class, 'manageUsers'])->name('manage-users');
     Route::get('/edit-users/{id}', [AdminController::class, 'editUsers'])->name('edit-users');
     Route::get('/delete-user/{id}',[AdminController::class, 'destroy'])->name('delete-user');
+    Route::get('/delete/logs/{id}',[LogsController::class, 'destroyLog'])->name('delete-log');
     Route::get('/admin-ajax-circle', [AdminController::class, 'adminGetCircle'])->name('admin-ajax-circle');
     Route::get('/admin-ajax-ranges', [AdminController::class, 'adminGetRanges'])->name('admin-ajax-ranges');
     Route::get('/create-holiday', [AdminController::class, 'createHoliday'])->name('create-holiday');
@@ -56,15 +57,20 @@ Route::group(['prefix' => 'admin', 'middleware' =>['isadmin']], function(){
     Route::get('/show/reports', [ChartController::class, 'getDistrict'])->name('show-reports');
     Route::get('/manage/holidays', [AdminController::class, 'manageHolidays'])->name('manage-holidays');
     Route::get('/show/holiday', [AdminController::class, 'showHoliday'])->name('show-holiday');
+    Route::get('/delete/holiday/{id}', [AdminController::class, 'deleteHoliday'])->name('delete-holiday');
     Route::get('/edit/holidays/{id}', [AdminController::class, 'editHolidays'])->name('edit-holidays');
     Route::post('/upate/holiday/{id}', [AdminController::class, 'updateHoliday'])->name('updated-holiday');
     Route::get('/show/activites', [AdminController::class, 'viewAllUserActivities'])->name('show-user-activity');
     Route::get('/edit/activity/{id}', [AdminController::class, 'editUserActivity'])->name(('edit-admin-activity'));
-    Route::post('/update/activity/{id}', [AdminController::class, 'updateUserActivity'])->name(('update-activity'));
+    Route::post('/update/activity/{id}', [AdminController::class, 'updateUserActivity'])->name(('update-user-activity'));
+    Route::get('/delete/activity/{id}', [AdminController::class, 'deleteUserActivity'])->name(('delete-user-activity'));
     Route::get('/get/admin/password', [AdminController ::class, 'getAdminPassword'])->name('admin-password');
     Route::post('/save/admin/password', [AdminController::class, 'storeAdminPassword'])->name(('save-admin-password'));
     Route::get('/activity/logs', [Logscontroller::class, 'acitivityLogInLogOut'])->name('activity-logIn-logOut');
-    // Route::get('/activity/logIn/logOut', [Logscontroller::class, 'acitivityLogInLogOut'])->name('activity-logIn-logOut');
+    Route::get('/report/districts', [ChartController::class, 'getUserReport'])->name('get-user-report');
+    Route::get('/profile', [AdminController::class, 'adminProfile'])->name('admin-profile');
+    // Route::get('/activity/logIn/logOut', [Logscontroller::class, 'acitivityLogInLogOut'])->name('activity-logIn-logOut')
+    ;
 
 
 });
@@ -72,7 +78,7 @@ Route::group(['prefix' => 'admin', 'middleware' =>['isadmin']], function(){
 
 
 
-Route::group(['prefix' => 'users', 'middleware' => ['auth']], function(){
+Route::group(['prefix' => 'users', 'middleware' => ['isadmin']], function(){
     Route::get('/dashboard', [UserController::class, 'usersDashboard'])->name('user.index');
     Route::post('/save-activity', [UserController::class,'saveActivity'])->name(('save-activity'));
     Route::get('/show/allActivities', [UserController::class, 'showAllActivity'])->name('show-activities');

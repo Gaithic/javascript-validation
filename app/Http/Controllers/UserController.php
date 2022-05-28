@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
 use Yajra\DataTables\Facades\DataTables;
 use App\Rules\MatchOldPassword;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -48,6 +49,19 @@ class UserController extends Controller
        if($request->datetime<$today){
             return back()->with('error', 'You can create task with current date');
        }else{
+        $user = Auth::user();
+        $isAdmin = $request->isAdmin;
+        $date = Carbon::now();
+        $todayDdate = $date->toDayDateTimeString();
+        
+        $activityLog = [
+            'name' => $user->name,
+            'email' => $user->email,
+            'description' => 'User Create new activity..',
+            'date_time' => $todayDdate
+        ];
+        $activityCount = Activity::where('created_at', '=', date('Y-m-d').' 00:00:00');
+        
         $activity = new Activity();
         $activity->name = $request->name;
         $activity->description = $request->description;
@@ -62,6 +76,8 @@ class UserController extends Controller
 
  
         $res = $activity->save();
+        DB::table('activity_logs')->insert($activityLog);
+
         if($res){
             return redirect()->intended(route('user.index'))->with('success', 'Task Created Successfully!!');
         }
@@ -101,13 +117,28 @@ class UserController extends Controller
         if($today>$activity->created_at){
             return back()->with('error', "Sorry you don't have a permission to Edit the Previous days activities...");
         }else{
+            $user = Auth::user();
+            $isAdmin = $request->isAdmin;
+            $date = Carbon::now();
+            $todayDdate = $date->toDayDateTimeString();
+            
+            $activityLog = [
+                'name' => $user->name,
+                'email' => $user->email,
+                'description' => "user update activity",
+                'date_time' => $todayDdate
+            ];
+
+            
             $activity->name = $request->name;
             $activity->description = $request->description;
             $activity->datetime  = $request->datetime;
             $activity->activityName = $request->activityName;
             $res = $activity->save();
+            DB::table('activity_logs')->insert($activityLog);
 
             if($res){
+                // dd($activityLog);
                 return back()->with('success', 'Activity Updated Successfully...');
             }else{
                 return back()->with('success', 'Something Went Wrong!!, Try again Later...');
