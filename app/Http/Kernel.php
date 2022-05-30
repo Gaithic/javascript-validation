@@ -36,6 +36,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            
         ],
 
         'api' => [
@@ -45,7 +46,14 @@ class Kernel extends HttpKernel
         ],
         'isadmin'  => [
             \App\Http\Middleware\RolesAndPermision::class,
+        ],
+        'checkRole' => [
+            \App\Http\Middleware\AdminController::class,
+        ],
+        'session' => [
+            \App\Http\Middleware\SessionExpired::class,
         ]
+
     ];
 
     /**

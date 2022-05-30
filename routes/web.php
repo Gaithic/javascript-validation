@@ -69,9 +69,6 @@ Route::group(['prefix' => 'admin', 'middleware' =>['isadmin']], function(){
     Route::get('/activity/logs', [Logscontroller::class, 'acitivityLogInLogOut'])->name('activity-logIn-logOut');
     Route::get('/report/districts', [ChartController::class, 'getUserReport'])->name('get-user-report');
     Route::get('/profile', [AdminController::class, 'adminProfile'])->name('admin-profile');
-    // Route::get('/activity/logIn/logOut', [Logscontroller::class, 'acitivityLogInLogOut'])->name('activity-logIn-logOut')
-    ;
-
 
 });
 

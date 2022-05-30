@@ -46,36 +46,38 @@
         </div>
     </div>
 </section>
-@endsection
 
 @push('scripts')
-    <script>
-    $.ajaxSetup({
-        headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
+<script>
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
     });
         $(function() {
-            var table = $('#data-table').DataTable({
-                processing: true,
-                serverside: true,
-                bDestroy: true,
-                ajax: "{{ route('show-activities') }}",
-                columns: [
-                    {data: 'name', name: 'name'},
-                    {data: 'description', name: 'description'},
-                    {data: 'activityName', name: 'activityName'},
-                    {data: 'datetime', name: 'datetime'},
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: true,
-                        searchable: true
-                    }
-                ]
-
-            });
+          var table = $('#data-table').DataTable({
+            processing: true,
+            serverside: true,
+            bDestroy: true,
+            ajax: "{{ route('show-activities') }}",
+              columns: [
+                {data: 'name', name: 'name'},
+                {data: 'description', name: 'description'},
+                {data: 'activityName', name: 'activityName'},
+                {data: 'datetime', name: 'datetime'},
+                {
+                  data: 'action',
+                  name: 'action',
+                  orderable: true,
+                  searchable: true
+                }
+              ]
+                  
+          });
+          
         });
-    </script>
+</script>
 
-  @endpush
+@endpush
+
+@endsection

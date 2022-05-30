@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use phpDocumentor\Reflection\DocBlock\Tags\See;
+use Symfony\Component\Console\Input\Input;
 
 class AuthController extends Controller
 {
@@ -112,51 +113,21 @@ class AuthController extends Controller
     }
 
 
-    public function loginUsers(LoginValidation $request){
-        // dd(date('Y-m-d'));
-        $local_holiday = Holidays::whereDate('holiday_date', Carbon::today())->get()->first();
-        if($local_holiday){
-            $local_holiday = $local_holiday->holiday_date;
-        }
-        $date = date('Y-m-d');
-        $date1 = now()->format('l');
-        $year=date('Y');
-        $month=date('m');
-        $firstday = new  DateTime("$year-$month-1 0:0:0");
-        $first_w=$firstday->format('w');
-        $saturday1=new DateTime;
-        $saturday1->setDate($year,$month,14-$first_w);
-        $holiday = $saturday1->format('Y-m-d');
-
-        if($date == $local_holiday){
-            return redirect()->intended(route('login-view'))->with('success', 'Today is off!! try on working Days');
-        }else{
-            if($date1=="Sunday"){
-                return redirect()->intended(route('login-view'))->with('success', 'Today is off!! try on working Days');
-           }else{
-                if($date == $holiday){
-                    return redirect()->intended(route('login-view'))->with('success', 'Today is Second Saturday!! try on working Days');
-                }else{
-                    $credentials = $request->only('username', 'password');
-                    if($credentials!=null){
-                        if(Auth::attempt($credentials)){
-                            if(Auth::check()){
-                                return redirect()->intended(route('auth.index'))->with('success', 'Welcome to Dashboard');
-                            }
-                        }else{
-                            return redirect()->intended(route('login-view'))->with('error', 'Password does not match');
-                
-                        }
-                    }else{
-                        return redirect()->intended(route('user-register'))->with('error', 'user does not exist kindly register first');
-                    }
+    public function loginUsers(LoginValidation $request){ 
+        $request->session()->put('data', $request->input());
+        $credentials = $request->only('username', 'password');
+        $user = Auth::getProvider()->retrieveByCredentials($credentials);
+        if($credentials!=null){
+            if(Auth::attempt($credentials)){
+                if(Auth::check()){
+                    Auth::login($user, $request->get('remember'));
+                    return redirect()->intended(route('auth.index'))->with('success', 'Welcome to Dashboard');
                 }
-           }
+            }else{
+                return redirect()->intended(route('login-view'))->with('error', 'Password does not match');
+    
+            }
         }
-
-
-
-
 
     }
 
@@ -167,13 +138,45 @@ class AuthController extends Controller
         if(Auth::check()){
             $user = Auth::user();
             if($user->isAdmin==1){
+                
                 return redirect()->intended(route('admin-index'))->with('success', 'Welcome to Dashboard!!');
 
             }elseif($user->isAdmin==0){
-                return redirect()->intended(route('user.index'))->with('success', 'Welcome to Dashboard!!');
-            }else{
-                return redirect()->intended(route('login-view'))->with('error', 'Access Denied!!');
+                $local_holiday = Holidays::whereDate('holiday_date', Carbon::today())->get()->first();
+                if($local_holiday){
+                    $local_holiday = $local_holiday->holiday_date;
+                }
+                $date = date('Y-m-d');
+                $date1 = now()->format('l');
+                $year=date('Y');
+                $month=date('m');
+                $firstday = new  DateTime("$year-$month-1 0:0:0");
+                $first_w=$firstday->format('w');
+                $saturday1=new DateTime;
+                $saturday1->setDate($year,$month,14-$first_w);
+                $holiday = $saturday1->format('Y-m-d');
+
+                if($date == $local_holiday){
+                    Auth::logout();
+                  return redirect()->intended(route('login-view'))->with('success', 'Today is off!! try on working Days');
+                  
+                }else{
+                    if($date1=="Sunday"){
+                        Auth::logout();
+                        return redirect()->intended(route('login-view'))->with('success', 'Today is off!! try on working Days');
+                   }else{
+                        if($date == $holiday){
+                            Auth::logout();
+                            return redirect()->intended(route('login-view'))->with('success', 'Today is Second Saturday!! try on working Days');
+                        }else{
+
+                            return redirect()->intended(route('user.index'))->with('success', 'Welcome to Dashboard!!');
+                        }
+                    }
+                }
+        
             }
+
         }
 
     }
@@ -200,7 +203,12 @@ class AuthController extends Controller
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerate();
+            // $user->update(['remember_token' => false]);
+            session()->forget('lastActivityTime');
             return redirect()->intended(route('login-view'))->with('success', 'You logged out!!');
+
+           
+     
     
         }
 

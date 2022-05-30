@@ -35,7 +35,7 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Contact</th>
-                            <th>Status</th>
+                            <th>Approved Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>

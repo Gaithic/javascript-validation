@@ -54,8 +54,8 @@
               <div class="pb-2" style="padding:10px; margin:5px;">
                 <div class="card">
                   <div class="card-body">
+                    <label style="padding:10px;">Name:</label>
                     <div class="d-flex flex-row align-items-center" style="padding:10px;">
-                      <label style="padding:10px;">Name:</label>
                      <input type="text" placeholder="Add Activity name" name="name" id="name"
                      class="form-control" value="{{ $activity->name }}" />
                       <span id="nameError" style="color: red;"></span>
@@ -78,10 +78,11 @@
               <div class="pb-2" style="padding:10px; margin:5px;">
                 <div class="card">
                   <div class="card-body" >
+                    <label style="padding:10px;" >Date:</label>
                     <div class="d-flex flex-row align-items-center">
-                      <label style="padding:10px;" >Date:</label>
-                     <input type="text" name="datetime" id="datetime"
-                     class="form-control" value="{{  $activity->datetime }}"  />
+                       <input name="datetime" id="datetime"
+                     class="form-control" value="{{  $activity->datetime}} " />
+
                      <span id='dateError' style="color: red;"></span>
                       <a href="#!" data-mdb-toggle="tooltip" title="Set due date"></a>
                       <div>
@@ -102,8 +103,8 @@
               <div class="pb-2" style="padding:10px; margin:5px;">
                 <div class="card">
                   <div class="card-body">
+                    <label style="padding:10px;" >Activity:</label>
                     <div class="d-flex flex-row align-items-center">
-                      <label style="padding:10px;" >Activity:</label>
                       <select name="activityName" id="activity" class="form-control">
                         <option value="{{ $activity->activityName }}">{{ $activity->activityName }}</option>
                         <option value="office">Office</option>
@@ -133,16 +134,14 @@
               <div class="pb-2" style="padding:10px; margin:5px;">
                 <div class="card">
                   <div class="card-body">
+                    <label style="padding:10px;" >Description:</label>
                     <div class="d-flex flex-row align-items-center">
-                      <label style="padding:10px;" >Description:</label>
-                      <input type="text" class="form-control form-control-lg"  name="description" id="description"
-                       class="form-control" value="{{ $activity->description }}"
-                        placeholder="Add Activity description..." >
+                        <textarea type="text" class="ckeditor form-control" id="description" name="description" placeholder="Enter Message Here">{{ $activity->description }}</textarea>  
                         <span id="desciptionError" style="color: red;"></span>
                       <a href="#!" data-mdb-toggle="tooltip" title="Set due date"></i></a>
-                      <div style="padding:10px; margin:5px;">
-                        <input type="submit" class="btn btn-warning" value="Update Activity" style="font-weight:700; font-size:20px; background: #23af89;"/>
-                      </div>
+                    </div>
+                    <div style="padding:10px; margin:5px;">
+                      <input type="submit" class="btn btn-warning" value="Update Activity" style="font-weight:700; font-size:20px; background: #23af89;"/>
                     </div>
                   </div>
                 </div>
@@ -167,5 +166,11 @@
     </div>
    </form>
   </section>
-
+  <script  src="{{ asset('/asset/js/calender.js') }}"></script>
+  <script>
+    var date = document.getElementById('datetime');
+    date.addEventListener('click', function(){
+      date.type =  "date"
+    })
+  </script>
 @endsection

@@ -1,5 +1,7 @@
 @extends('layout.master')
-
+@section('head')
+{{-- <meta http-equiv="refresh" content="30; url={{ route('logout') }}"> --}}
+@endsection
 @section('breadcrumbs')
   <!-- Content Header (Page header) -->
   <div class="content-header">
@@ -21,6 +23,7 @@
 @endsection
 
 @push('styles')
+
     <link href="{{asset('/asset/css/user.css') }}" rel="stylesheet">
 @endpush
 
@@ -54,8 +57,8 @@
               <div class="pb-2" style="padding:10px; margin:5px;">
                 <div class="card">
                   <div class="card-body">
+                    <label style="padding:10px;">Name:</label>
                     <div class="d-flex flex-row align-items-center" style="padding:10px;">
-                      <label style="padding:10px;">Name:</label>
                      <input type="text" placeholder="Add Activity name" name="name" id="name" class="form-control"/>
                         <a href="#!" data-mdb-toggle="tooltip" title="Set due date"></a>
                      <div>
@@ -80,8 +83,8 @@
               <div class="pb-2" style="padding:10px; margin:5px;">
                 <div class="card">
                   <div class="card-body" >
+                    <label style="padding:10px;" >Date:</label>
                     <div class="d-flex flex-row align-items-center">
-                      <label style="padding:10px;" >Date:</label>
                      <input type="date" name="datetime" id="datetime"  class="form-control"/>
                       <a href="#!" data-mdb-toggle="tooltip" title="Set due date"></a>
                       <div>
@@ -105,8 +108,8 @@
               <div class="pb-2" style="padding:10px; margin:5px;">
                 <div class="card">
                   <div class="card-body">
+                    <label style="padding:10px;" >Activity:</label>
                     <div class="d-flex flex-row align-items-center">
-                      <label style="padding:10px;" >Activity:</label>
                       <select name="activityName" id="activity" class="form-control">
                         <option value="">Select Activity</option>
                         <option value="office">Office</option>
@@ -141,15 +144,13 @@
               <div class="pb-2" style="padding:10px; margin:5px;">
                 <div class="card">
                   <div class="card-body">
+                    <label style="padding:10px;" >Description:</label>
                     <div class="d-flex flex-row align-items-center">
-                      <label style="padding:10px;" >Description:</label>
-                      <input type="text" class="form-control form-control-lg"  name="description" id="description" class="form-control"
-                        placeholder="Add Activity description..." >
-                        
+                      <textarea type="text" class="ckeditor form-control" id="description" name="description" placeholder="Enter Message Here"></textarea>  
                       <a href="#!" data-mdb-toggle="tooltip" title="Set due date"></i></a>
-                      <div style="padding:10px; margin:5px;">
-                        <input type="submit" class="btn btn-warning" value="Add Today Activity" style="font-weight:700; font-size:20px; background: #23af89;"/>
-                      </div>
+                    </div>
+                    <div style="padding:10px; margin:5px;">
+                      <input type="submit" class="btn btn-warning" value="Add Today Activity" style="font-weight:700; font-size:20px; background: #23af89;"/>
                     </div>
                   </div>
                 </div>
@@ -177,8 +178,20 @@
     </div>
    </form>
   </section>
-@push('scripts')
-  <script  src="{{ asset('/asset/js/calender.js') }}"></script>
+  	
+  
+  @push('scripts')
+  
+  {{-- <script  src="{{ asset('/asset/js/calender.js') }}"></script> --}}
+  <script>
+    $(function() {
+      $('#description').ckeditor({
+          toolbar: 'Full',
+          enterMode : CKEDITOR.ENTER_BR,
+          shiftEnterMode: CKEDITOR.ENTER_P
+      });
+    });
+    </script>
     
 @endpush
 @endsection

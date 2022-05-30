@@ -66,6 +66,12 @@ class ChartController extends Controller
 
 
 
+    public function toSearchUserReport(){
+        
+    }
+
+
+
    
 
 

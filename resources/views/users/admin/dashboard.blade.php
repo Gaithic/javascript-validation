@@ -1,5 +1,11 @@
 @extends('layout.app')
 
+@section('head')
+
+    {{-- <meta http-equiv="refresh" content="60; url={{ route('logout') }}"> --}}
+
+@endsection
+
 @section('title', 'Dashboard')
 
 @section('breadcrumbs')

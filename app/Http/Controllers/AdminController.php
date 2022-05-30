@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Auth;
 class AdminController extends Controller
 {
     public function adminView(){
+        
         $users = User::all();
         return view('users.admin.dashboard', [
             'users' => $users
@@ -36,7 +37,15 @@ class AdminController extends Controller
             $data= User::query()->orderBy("id", "desc");
 
             return DataTables::of($data)
-                ->addIndexColumn()->addColumn('action', function($row){
+                ->addIndexColumn()
+                ->editColumn('status', function($row){
+                    if($row->status == 1){
+                        return 'Yes';
+                    }else{
+                        return 'No';
+                    }
+                })
+                ->addColumn('action', function($row){
                     $btn= '<a href="'.route('edit-users', ['id' => $row->id]).'"class=dit btn btn-primay btn-sm>View</a>';
                     return $btn;
                 })
@@ -366,7 +375,6 @@ class AdminController extends Controller
         
         $users = Activity::query()->with('user')->orderBy("created_at", "desc");
         $activity = Activity::where('user_id',auth()->user()->id)->paginate(4);
-        // dd($activity);
         return view('users.admin.profile.adminProfile',[
             'users' => $users,
             'activity' => $activity

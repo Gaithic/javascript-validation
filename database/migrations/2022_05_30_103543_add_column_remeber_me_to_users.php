@@ -13,13 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('activities', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('description');
-            $table->string('activityName');
-            $table->timestamp('datetime');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+           $table->integer('remeber_me')->boolean;
         });
     }
 
@@ -30,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('activities');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('remeber_me');
+        });
     }
 };

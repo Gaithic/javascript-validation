@@ -21,7 +21,7 @@ class RolesAndPermision
         if(Auth::check()){
             if(auth()->user()->status == 0){
                 return redirect()->intended(route('login-view'))->with('error', 'Your account is not approved by admin, Wait for admin approval!!');
-
+                
             }else{
                 return $next($request);
             }
