@@ -112,11 +112,9 @@
                     <div class="d-flex flex-row align-items-center">
                       <select name="activityName" id="activity" class="form-control">
                         <option value="">Select Activity</option>
-                        <option value="office">Office</option>
-                        <option value="field visit">Field visit</option>
-                        <option value="tour">Tour</option>
-                        <option value="meeting">Meeting</option>
-                        <option value="leave">Leave</option>
+                        @foreach ($activitylist as $list)
+                            <option value="{{ $list->name }}">{{ $list->name }}</option>
+                        @endforeach
                      </select>
                     
                       <a href="#!" data-mdb-toggle="tooltip" title="Set due date"></i></a>
@@ -182,7 +180,7 @@
   
   @push('scripts')
   
-  {{-- <script  src="{{ asset('/asset/js/calender.js') }}"></script> --}}
+  <script  src="{{ asset('/asset/js/calender.js') }}"></script>
   <script>
     $(function() {
       $('#description').ckeditor({

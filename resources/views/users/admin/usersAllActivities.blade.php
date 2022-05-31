@@ -6,16 +6,17 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">All Users</h1>
+          <h1 class="m-0">All users activities</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="/home">Home</a></li>
-            <li class="breadcrumb-item active">Users</li>
+            <li class="breadcrumb-item active">Activity</li>
           </ol>
         </div><!-- /.col -->
       </div><!-- /.row -->
     </div><!-- /.container-fluid -->
+    <a href="{{ route('admin-index') }}" class="btn btn-warning" style="margin:20px;">Back</a>
   </div>
   <!-- /.content-header -->
 @endsection

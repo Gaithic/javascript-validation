@@ -89,7 +89,7 @@
                                 </button>
 
                             </div>
-
+                            <a href="{{ route('user.index') }}" class="btn btn-warning" style="margin-left:30px;">Back</a>
                         </div>
 
                     </form>

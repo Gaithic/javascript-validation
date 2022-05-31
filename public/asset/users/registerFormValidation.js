@@ -32,7 +32,7 @@ function validateForm(){
             return false;
         }else{
             if(!ifString.test(name)){
-                document.getElementById('nameError').innerHTML= "Name Contain word's Only not number's";
+                document.getElementById('nameError').innerHTML= "Only Word's are allowed...";
             }else{
                 document.getElementById('nameError').innerHTML= "";
 

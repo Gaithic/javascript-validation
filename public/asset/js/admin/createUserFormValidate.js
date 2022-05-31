@@ -247,7 +247,7 @@ function createUserForm(){
       return false;
 
     }
-    else if(email.charAt(email.length-4)!='.' && email.charAt(email.length-3)){
+    else if(email.charAt(email.length-4)!='.' && email.charAt(email.length-3)!='.'){
       document.getElementById('emailError').innerHTML="Invalid Email.";
       return false;
 

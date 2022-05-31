@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AdminCreateUserValidation;
 use App\Models\Activity;
+use App\Models\ActivityList;
 use App\Models\activityLog;
 use App\Models\Circle;
 use App\Models\District;
@@ -12,6 +13,7 @@ use App\Models\Holidays;
 use App\Models\OfficesName;
 use App\Models\Range;
 use App\Models\User;
+use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Action;
 use Illuminate\Support\Facades\DB;
@@ -20,6 +22,7 @@ use Yajra\DataTables\Contracts\DataTable;
 use Yajra\DataTables\Facades\DataTables;
 use App\Rules\MatchOldPassword;
 use Carbon\Carbon;
+use GuzzleHttp\Handler\Proxy;
 use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
@@ -377,9 +380,66 @@ class AdminController extends Controller
         $activity = Activity::where('user_id',auth()->user()->id)->paginate(4);
         return view('users.admin.profile.adminProfile',[
             'users' => $users,
-            'activity' => $activity
+            'activity' => $activity   
+        ]);
+    }
+
+    public function saveAdminProfile(Request $request){
+        $profile = new Profile();
+        if($files = $request->file('profileImage')){
+            $name=$files->getClientOriginalName();  
+            $files->move('images',$name);  
+            $profile->path=$name;  
+        }
+        $profile->education = $request->education;        
+        $profile->location = $request->location;        
+        $profile->companyName = $request->companyName;        
+        $profile->experience = $request->experience;        
+        $profile->skills = $request->skills;
+        $res = $profile->save()        ;
+
+        dd($res);
+
         
-        
+
+
+    }
+
+    public function createNewActivityList(Request $request){
+        return view('users.admin.createNewActivity');
+    }
+
+    public function saveNewActivityList(Request $request){
+        $activitylist = new ActivityList();
+        $activitylist->name = $request->name;
+        $res = $activitylist->save();
+
+        if($res){
+            return redirect()->intended(route('create-acivity'))->with('success', 'Activity Created Successfully...');
+        }
+    }
+
+
+    public function editUserActivityList(Request $request){
+        if($request->ajax()){
+            $data= ActivityList::query()->orderBy("id", "desc");
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row){
+                    $btn= '<a href="'.route('edit-activitylist', ['id' => $row->id]).'"class=dit btn btn-primay btn-sm>View</a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])->make(true);
+
+        }
+
+    }
+
+    public function showUserActivityList($id){
+        $activitylist= ActivityList::findOrfail($id);
+        return view('users.admin.editActivitylist', [
+            'activitylist' => $activitylist
         ]);
     }
 

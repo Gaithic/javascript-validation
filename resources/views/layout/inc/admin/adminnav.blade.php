@@ -115,6 +115,15 @@
                     <p>Manage Users</p>
                   </a>
               </li>
+
+              <li class="nav-item">
+                <a href="{{route('create-acivity')}}" class="nav-link">
+                    {{-- <i class="fa fa-sign-out-circle nav-icon" aria-hidden="true"></i> --}}
+                    <i class="right fas fa-lock"></i>
+                    {{-- <i class="fa fa-sign-out"></i> --}}
+                  <p>Create New Activity</p>
+                </a>
+            </li>
   
             </ul>
           </li>

@@ -6,18 +6,19 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">All Users</h1>
+          <h1 class="m-0">Pie Reports</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="/home">Home</a></li>
-            <li class="breadcrumb-item active">Users</li>
+            <li class="breadcrumb-item active">Report</li>
           </ol>
         </div><!-- /.col -->
       </div><!-- /.row -->
     </div><!-- /.container-fluid -->
   </div>
   <!-- /.content-header -->
+  <a href="{{ route('admin-index') }}" class="btn btn-warning" style="margin-left:30px;">Back</a>
 @endsection
 
 @section('content')
@@ -73,8 +74,8 @@
                                 <select class="select2" style="width: 100%;" id="circle" name="circle_id">
                                     <option value="">Select Circle</option>
                                     {{-- @foreach ($circles as $dist)
-                                    <option value="{{ $dist->id }}">{{ $dist->circleName }}</option>
-                                @endforeach --}}
+                                      <option value="{{ $dist->id }}">{{ $dist->circleName }}</option>
+                                    @endforeach --}}
                                 </select>
                             </div>
                         </div>
@@ -116,8 +117,9 @@
                         <input type="date" class="form-input" style="width: 100%;"/>
                     </div>
                   </div>
+                  
                     </div>
-                     
+                     <a  class="btn btn-success" id="search">Search</a>
                   </div>
               </div>
           </form>
@@ -162,8 +164,6 @@
 <script src="{{ asset('/asset/admin/plugins/chart.js/Chart.min.js')}}"></script>  
 <script>
   var ctx =  document.getElementById("pieChart");
-  let labels=[];
-  let data=[];
   var myChart = new Chart(ctx, {
     type: 'pie',
     data: {
@@ -194,46 +194,80 @@
     }
   })
 
-  var getData = function(){
-    let users = '<?php echo json_encode($users)?>';
-    let jsonUsers = JSON.parse(users);
-    var userField = document.getElementById('userId').value;
-    for(var i=0;i<jsonUsers.length;i++){
-        myChart.data.labels.push(jsonUsers[i].activityName);
-        myChart.data.datasets[0].data.push(jsonDist[i].userCount);
-    }
-    myChart.update();
-  }
+// let districts = '<?php echo json_encode($users) ?>';
+// let jsonDist = JSON.parse(districts);
+// // console.log(jsonDist);
+// let labels=[];
+// let data=[];
 
+// for(var i=0;i<jsonDist.length;i++){
+//     labels.push(jsonDist[i].districtName);
+//     data.push(jsonDist[i].userCount);
+// }
+  
+</script>
+
+
+<script >
   $.ajaxSetup({
       headers: {
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
   });
-$(document).ready(function(){
-  $('#userId').on('change', function(e){
-      var user_id  = e.target.value;
-      $.ajax({
-        url: "{{ route('get-user-report') }}",
-        data : {
-          user_id : user_id
-        },
-        success:function(data){
-          const user = document.getElementById('userId');
-          user.addEventListener('change', getData);
-        }
-      })
+  $(document).ready(function () {
+      $('#userId').on('change',function(e) {
+          var user_id = e.target.value;
+          $.ajax({
+              url:"{{ route('get-fields') }}",
+              data: {
+                user_id: user_id
+              },
+              
+
+              success:function (data) {
+                  // $('#circle').empty();
+                  // $.each(data.circles[0].circles,function(index,circles){
+                  //     $('#circle').append('<option value="'+circles.id+'">'+circles.circleName+'</option>');
+                  // })
+                  $('#district').empty();
+                  $.each(data.districts[0].districts, function(index, districts){
+                    $('#district').append('<option value="'+district_id+'">'+district_id+'</option>')
+                  })
+                    
+                  $('#circle').empty();
+                  $.each(data.circles[0].circles,function(index,circles){
+                      $('#circle').append('<option value="'+circles.id+'">'+circles.circleName+'</option>');
+                  })
+
+                  $('#division').empty();
+                  $.each(data.divisions[0].divisions, function(index, divisions){
+                      $('#division').append('<option value="'+divisions.id+'">'+divisions.divisionName+'</option>');
+                  })
+                  $('#range').empty();
+                  $.each(data.ranges[0].ranges, function(index, ranges){
+                      $('#range').append('<option value="'+ranges.id+'">'+ranges.rangesName+'</option>');
+                  })
+
+                  $(document).ready(function (){
+                      $('#division').on('change', function(e){
+                          var id = e.target.value;
+                          $.ajax({
+                              url:"{{ route('ajax-ranges') }}",
+                              data:{
+                                  id: id
+                              },
+                              success:function(data){
+                                  $('#range').empty();
+                                  $.each(data.ranges[0].ranges, function(index, ranges){
+                                      $('#range').append('<option value="'+ranges.id+'">'+ranges.rangesName+'</option>');
+                                  })
+                              }
+                          })
+                      })
+                  })
+              }
+          })
+      });
   });
-});
-
-
- 
 </script>
-
-<script>
-
-
-</script>
-
-
 @endsection

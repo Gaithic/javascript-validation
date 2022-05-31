@@ -12,6 +12,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Stmt\Foreach_;
+use Symfony\Component\Console\Input\Input;
 
 class ChartController extends Controller
 {
@@ -28,47 +29,40 @@ class ChartController extends Controller
         ]);
     }
 
-   
-   
     public function getDistrict(){
         $users = User::all();
-        foreach($users as $use){
-            $use->activityCount = DB::table('activities')->whereUserId($use->id)->count();
-        }
+        $user_id = User::where('id', 0)->get();
+        $districts =  District::all();
     	return view('users.admin.reports', [
-            'users' =>  $users
-           
+            "users" => $user_id,
+            "users" => $users,
+            'districts' => $districts,       
         ]);
      
     }
 
 
-
-    
-    public function getUserReport(Request $request)
-    {
-        $parent_id = $request->user_id;
-        $users = DB::table('activities')->where('user_id', $parent_id)->get();
+    public function getDropdown(Request $request){
+        $user_id = $request->user_id;
+        $parent_id = $request->dist_id;
+        $division_id = $request->dist_id;
+        $range_id = $request->dist_id;
+        $users = User::where('id', $user_id)->with('activities')->get();
+        $circles = District::where('id', $parent_id)
+                              ->with('circles')
+                              ->get();
+        $divisions = Circle::where('district_id', $division_id)->with('divisions')->get();
+        $ranges = Division::where('circle_id', $range_id)->with('ranges')->get();
         return response()->json([
-            'users' => $parent_id,
-            'users' => $users
+            'users' => $users,
+            'circles' => $circles,
+            'divisions' => $divisions,
+            'ranges' => $ranges
         ]);
+    }
+
    
-    }
-
-    public function getRangesReport(Request $request){
-        $division_id = $request->id;
-        $ranges = Division::where('id', $division_id)->with('ranges')->get();
-        return response()->json([
-            'ranges' => $ranges,
-        ]);
-    }
-
-
-
-    public function toSearchUserReport(){
-        
-    }
+  
 
 
 

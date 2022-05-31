@@ -16,6 +16,7 @@
         </div><!-- /.col -->
       </div><!-- /.row -->
     </div><!-- /.container-fluid -->
+    <a href="{{ route('admin-index') }}" class="btn btn-warning" style="margin:20px;">Back</a>
   </div>
   <!-- /.content-header -->
 @endsection

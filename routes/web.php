@@ -55,7 +55,10 @@ Route::group(['prefix' => 'admin', 'middleware' =>['isadmin']], function(){
     Route::post('/save-holiday', [AdminController::class, 'saveHoliday'])->name('save-holiday');
     Route::get('/show/chart', [ChartController::class, 'showChart'])->name('show-chart');
     Route::get('/show/reports', [ChartController::class, 'getDistrict'])->name('show-reports');
+    Route::get('/get/dropdown/reports', [ChartController::class, 'getDropdown'])->name('get-fields');
     Route::get('/manage/holidays', [AdminController::class, 'manageHolidays'])->name('manage-holidays');
+    Route::get('/manage/activitylist', [AdminController::class, 'editUserActivityList'])->name('manage-activitylist');
+    Route::get('/edit/activitylist/{id}', [AdminController::class, 'showUserActivityList'])->name('edit-activitylist');
     Route::get('/show/holiday', [AdminController::class, 'showHoliday'])->name('show-holiday');
     Route::get('/delete/holiday/{id}', [AdminController::class, 'deleteHoliday'])->name('delete-holiday');
     Route::get('/edit/holidays/{id}', [AdminController::class, 'editHolidays'])->name('edit-holidays');
@@ -69,6 +72,10 @@ Route::group(['prefix' => 'admin', 'middleware' =>['isadmin']], function(){
     Route::get('/activity/logs', [Logscontroller::class, 'acitivityLogInLogOut'])->name('activity-logIn-logOut');
     Route::get('/report/districts', [ChartController::class, 'getUserReport'])->name('get-user-report');
     Route::get('/profile', [AdminController::class, 'adminProfile'])->name('admin-profile');
+    Route::post('/save/profile', [AdminController::class, 'saveAdminProfile'])->name('save-profile');
+    Route::get('/get/report', [ChartController::class, 'getFilterReport'])->name('get-reports');
+    Route::get('/create/new/activity', [AdminController::class, 'createNewActivityList'])->name('create-acivity');
+    Route::post('/save/new/activity', [AdminController::class, 'saveNewActivityList'])->name('save-acivity');
 
 });
 

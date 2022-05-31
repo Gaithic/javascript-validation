@@ -73,10 +73,14 @@ class User extends Authenticatable
     
     public function activity()
     {
-       return $this->belongsTo(Range::class, 'user_id');
+       return $this->belongsTo(Activity::class, 'user_id');
     }
 
 
+    public function activities()
+    {
+      return $this->hasMany(Activity::class, 'user_id');
+    }
 
 
 }

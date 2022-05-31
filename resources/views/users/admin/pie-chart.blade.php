@@ -7,7 +7,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">All Users</h1>
+          <h1 class="m-0">Registered Employees Statics</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
@@ -18,6 +18,7 @@
       </div><!-- /.row -->
     </div><!-- /.container-fluid -->
   </div>
+  <a href="{{ route('admin-index') }}" class="btn btn-warning" style="margin-left:30px;">Back</a>
   <!-- /.content-header -->
 @endsection
 
@@ -63,7 +64,6 @@
 
 let districts = '<?php echo json_encode($districts) ?>';
 let jsonDist = JSON.parse(districts);
-// console.log(jsonDist);
 let labels=[];
 let data=[];
 
@@ -77,7 +77,7 @@ console.log(labels,data);
 
 const ctx = document.getElementById('pie-chart');
 const myChart = new Chart(ctx, {
-    type: 'bar',
+    type: 'pie',
     data: {
         labels:labels,
         datasets: [{

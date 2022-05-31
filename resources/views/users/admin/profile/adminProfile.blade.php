@@ -17,6 +17,7 @@
         </div><!-- /.col -->
       </div><!-- /.row -->
     </div><!-- /.container-fluid -->
+    <a href="{{ route('admin-index') }}" class="btn btn-warning" style="margin-left:20px;">Back</a>
   </div>
   <!-- /.content-header -->
 @endsection
@@ -252,9 +253,8 @@
                     </div>
                   </div>
                   <!-- /.tab-pane -->
-
                   <div class="tab-pane" id="settings">
-                    <form class="form-horizontal">
+                    <form action="" method="POST">
                       <div class="form-group row">
                         <label for="inputName" class="col-sm-2 col-form-label">Education</label>
                         <div class="col-sm-10">
@@ -321,6 +321,4 @@
         <!-- /.row -->
       </div><!-- /.container-fluid -->
     </section>
-    <!-- /.content -->
-  </div>
 @endsection

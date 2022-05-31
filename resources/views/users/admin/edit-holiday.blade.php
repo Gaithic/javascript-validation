@@ -17,6 +17,7 @@
       </div><!-- /.row -->
     </div><!-- /.container-fluid -->
   </div>
+  <a href="{{ route('admin-index') }}" class="btn btn-warning" style="margin-left:30px;">Back</a>
   <!-- /.content-header -->
 @endsection
 

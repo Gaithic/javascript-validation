@@ -13,15 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('table_profile_to_users', function (Blueprint $table) {
+        Schema::create('activity_lists', function (Blueprint $table) {
             $table->id();
-            $table->string('education');
-            $table->string('location');
-            $table->string('companyName');
-            $table->string('experience');
-            $table->string('skills');
-            $table->string('profileImage');
-
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -33,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_profile_to_users');
+        Schema::dropIfExists('activity_lists');
     }
 };

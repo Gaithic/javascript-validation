@@ -27,5 +27,6 @@ class DatabaseSeeder extends Seeder
         $this->call(DivisionSeeder::class);
         $this->call(RangeSeeder::class);
         $this->call(OfficesNameSeeder::class);
+        $this->call(ActivityList::class);
     }
 }

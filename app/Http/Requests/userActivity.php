@@ -27,7 +27,7 @@ class userActivity extends FormRequest
             'name' => 'required',
             'datetime' => 'required',
             'activityName' => 'required',
-            'description' => 'required',
+            // 'description' => 'required',
         ];
     }
 }

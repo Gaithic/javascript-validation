@@ -31,3 +31,16 @@ function editActivityValidation(){
         document.getElementById('nameError').innerHTML="";
     }
 }
+
+
+
+function activityFormValidation(){
+    const name = document.getElementById('name').value;
+
+    if(name==""){
+        document.getElementById('nameError').innerHTML="Kindly fill the Activity Name";
+        return false;
+    }else{
+        document.getElementById('nameError').innerHTML="";
+    }
+}

@@ -99,6 +99,7 @@ class AuthController extends Controller
         $user->contact = $request->contact;
         $user->isadmin  = 0;
         $user->status = 0;
+        // $user->reme
         $res = $user->save();
 
         if($res){

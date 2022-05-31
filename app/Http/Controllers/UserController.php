@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\userActivity;
 use App\Models\Activity;
+use App\Models\ActivityList;
 use App\Models\Holidays;
 use App\Models\OfficesName;
 use App\Models\User;
@@ -22,12 +23,14 @@ class UserController extends Controller
     public function usersDashboard(Request $request){
         $user   = User::all();
         $offices = OfficesName::all();
+        $activitylist = ActivityList::all();
         $office_d = OfficesName::where('id', 0)->get();
 
         return view('users.users.dashboard',[
             'user' => $user,
             'offices' => $offices,
-            'offices'   => $office_d
+            'offices'   => $office_d,
+            'activitylist' => $activitylist
         ]);
     }
 

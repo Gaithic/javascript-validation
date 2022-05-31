@@ -372,6 +372,7 @@
                 <div class="mt-4 pt-2">
                   <input class="btn btn-success btn-lg" type="submit" value="Register" />
                 </div>
+                <a>
 
               </form>
             </div>
