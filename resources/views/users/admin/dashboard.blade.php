@@ -53,9 +53,9 @@
                 <!-- small box -->
                 <div class="small-box bg-success">
                   <div class="inner">
-                    <h3></h2>
+                    <h3>{{count($holidays)}}</h3>
 
-                    <p>Total Number Of holidays in this Year</p>
+                    <p>Total Number Of local holidays in this Year</p>
                   </div>
                   <div class="icon">
                     <i class="ion ion-stats-bars"></i>
@@ -68,8 +68,8 @@
                 <!-- small box -->
                 <div class="small-box bg-warning">
                   <div class="inner">
-                    <h3></h3>
-                    <p>Pending For Approval</p>
+                    <h3>{{count($pending)}}</h3>
+                    <p>count of pending employees account for Approval</p>
                   </div>
                   <div class="icon">
                     <i class="ion ion-person-add"></i>
@@ -82,9 +82,9 @@
                 <!-- small box -->
                 <div class="small-box bg-danger">
                   <div class="inner">
-                    <h3></h3>
+                    <h3>{{count($reject)}}</h3>
 
-                    <p>Reject Post</p>
+                    <p>count of rejected Employees account</p>
                   </div>
                   <div class="icon">
                     <i class="ion ion-pie-graph"></i>

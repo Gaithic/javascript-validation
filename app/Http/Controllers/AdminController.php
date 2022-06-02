@@ -28,10 +28,18 @@ use Illuminate\Support\Facades\Auth;
 class AdminController extends Controller
 {
     public function adminView(){
-        
+
         $users = User::all();
+        $holidays = Holidays::all();
+        $pending = User::where('status', 0)->get();
+        $reject = User::where('status', 2)->get();
+
         return view('users.admin.dashboard', [
-            'users' => $users
+            'users' => $users,
+            'pending' => $pending,
+            'holidays' => $holidays,
+            'reject' => $reject
+
         ]);
     }
 
@@ -79,7 +87,7 @@ class AdminController extends Controller
     }
 
     public function createUserView(){
-        
+
         $districts =  District::all();
         $circles  = Circle::all();
         $divisions = Division::all();
@@ -164,7 +172,7 @@ class AdminController extends Controller
 
 
     public function updateUser(Request $request, $id){
-        
+
         $user = User::findOrFail($id);
         $user->name = $request->name;
         $user->designation = $request->designation;
@@ -196,7 +204,7 @@ class AdminController extends Controller
 
 
     public function createHoliday(){
-        
+
         return view('users.admin.createholiday')->with('success', "Let's create new Holiday for employee's");
     }
 
@@ -318,7 +326,7 @@ class AdminController extends Controller
             $isAdmin = $request->isAdmin;
             $date = Carbon::now();
             $todayDdate = $date->toDayDateTimeString();
-            
+
             $activityLog = [
                 'name' => $user->name,
                 'email' => $user->email,
@@ -326,7 +334,7 @@ class AdminController extends Controller
                 'date_time' => $todayDdate
             ];
 
-            
+
             $activity->name = $request->name;
             $activity->description = $request->description;
             $activity->datetime  = $request->datetime;
@@ -351,7 +359,7 @@ class AdminController extends Controller
         $isAdmin = $user->isAdmin;
         $date = Carbon::now();
         $todayDdate = $date->toDayDateTimeString();
-        
+
         $activityLog = [
             'name' => $user->name,
             'email' => $user->email,
@@ -394,12 +402,12 @@ class AdminController extends Controller
     }
 
     public function adminProfile(){
-        
+
         $users = Activity::query()->with('user')->orderBy("created_at", "desc");
         $activity = Activity::where('user_id',auth()->user()->id)->paginate(4);
         return view('users.admin.profile.adminProfile',[
             'users' => $users,
-            'activity' => $activity   
+            'activity' => $activity
         ]);
     }
 
@@ -415,11 +423,11 @@ class AdminController extends Controller
         }else{
             $fileNAmeTotore = 'noImage.jpg';
         }
-        $profile->education = $request->education;        
-        $profile->location = $request->location;        
-        $profile->companyName = $request->companyName;        
-        $profile->experience = $request->experience; 
-        $profile->profileImage = $fileNAmeTotore;    
+        $profile->education = $request->education;
+        $profile->location = $request->location;
+        $profile->companyName = $request->companyName;
+        $profile->experience = $request->experience;
+        $profile->profileImage = $fileNAmeTotore;
         $profile->skills = $request->skills;
         $res = $profile->save()        ;
 
@@ -427,7 +435,7 @@ class AdminController extends Controller
             return back()->with('success', 'Profile Updated Successfully..');
         }
 
-        
+
 
 
     }

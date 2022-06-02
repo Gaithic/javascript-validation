@@ -139,7 +139,7 @@
                                     <option value="{{ $district->id }}">{{ $district->districtName }}</option>
                                 @endforeach
                             </select>
-                                
+
                             </div>
                             <div style="margin: 5px;">
                                 <span id="districtError"  style="color: red; font-size:15px; font-weight:700;" ></span>
@@ -156,7 +156,7 @@
                             </div>
                             <select class="form-control"  name="circle_id" id="circle">
                                 <option value="{{ $user->circles->id }}">{{ $user->circles->circleName }}</option>
-                               
+
                             </select>
                             </div>
                             <div style="margin: 5px;">
@@ -174,7 +174,7 @@
                             <select class="form-control" name="division_id" id="division" >
                                 <option value="{{ $user->divisions->id }}">{{ $user->divisions->divisionName }}</option>
                             </select>
-                                
+
                             </div>
                             <div style="margin: 5px;">
                                 <span id="divisionError"  style="color: red; font-size:15px; font-weight:700;" ></span>
@@ -203,7 +203,7 @@
                             </div>
                             <select class="form-control"  name="range_id" id="range" >
                                 <option value="{{ $user->ranges->id }}">{{ $user->ranges->rangesName }}</option>
-                               
+
                             </select>
                             </div>
                             <div style="margin: 5px;">
@@ -299,10 +299,10 @@
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-lock"></i></span>
-                                    
+
                                 </div>
                                 <input type="password" class="form-control"
-                                    name="password" id="updatepassword" >                                    
+                                    name="password" id="updatepassword" >
                             </div>
                             <input type="checkbox" onclick="showPassword()" style="padding: 10px;"> Show Password
                             <div style="margin: 5px;">
@@ -312,7 +312,7 @@
 
                             <!-- /.input group -->
                         </div>
-                        
+
                         <div class="form-group">
                             <label>Employee Contact</label>
 
@@ -343,7 +343,7 @@
                                             @endif
                                         </option>
                                         <option value="1" style="color: green;  font-weight:900;">Approve</option>
-                                        <option value="0" style="color: red; font-weight:900;">Reject</option>
+                                        <option value="2" style="color: red; font-weight:900;">Reject</option>
 
                                     </select>
                                 </div>
@@ -359,14 +359,14 @@
 
                     <!-- /.card-body -->
                 </div>
-            
+
 
                 <div class="form-submit">
-                    <input type="submit" value="Update" class="btn btn-success" id="submit" name="submit" class="submit"/>               
+                    <input type="submit" value="Update" class="btn btn-success" id="submit" name="submit" class="submit"/>
                     <a href="{{ route('delete-user', ['id' => $user->id]) }}" class="button delete-confirm">Delete</a>
                 </div>
             </form>
-    
+
     </div>
 </section>
 @push('scripts')
@@ -409,7 +409,7 @@
 
             const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
             password.setAttribute('type', type);
-            
+
 
             this.classList.toggle("fa-lock");
         });
