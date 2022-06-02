@@ -64,6 +64,7 @@ class AdminController extends Controller
         $districts = District::all();
         $circles = Circle::all();
         $ranges = Range::all();
+        $divisions = Division::all();
         $user = User::findOrFail($id);
         return view('users.admin.edituser',
         [
@@ -71,13 +72,14 @@ class AdminController extends Controller
             'offices' => $offices,
             'districts' => $districts,
             'ranges' => $ranges,
-            'circles' => $circles
-
+            'circles' => $circles,
+            'divisions' => $divisions
 
         ]);
     }
 
     public function createUserView(){
+        
         $districts =  District::all();
         $circles  = Circle::all();
         $divisions = Division::all();
@@ -149,16 +151,20 @@ class AdminController extends Controller
         $user->password = Hash::make($request->password);
         $user->email = trim(strtolower($request->email));
         $user->contact = $request->contact;
-        $user->isadmin  = $request->isadmin;
+        $user->isAdmin  = $request->isAdmin;
         $user->status = $request->status;
         $res = $user->save();
+
+        // dd($res);
         if($res){
+            // DB::table('activity_logs')->insert($activityLog);
             return redirect()->intended(route('create-user'))->with('success', 'Employee Created Successfully');
         }
     }
 
 
     public function updateUser(Request $request, $id){
+        
         $user = User::findOrFail($id);
         $user->name = $request->name;
         $user->designation = $request->designation;
@@ -190,6 +196,7 @@ class AdminController extends Controller
 
 
     public function createHoliday(){
+        
         return view('users.admin.createholiday')->with('success', "Let's create new Holiday for employee's");
     }
 
@@ -222,6 +229,18 @@ class AdminController extends Controller
                 ->addIndexColumn()->addColumn('action', function($row){
                     $btn= '<a href="'.route('edit-holidays', ['id' => $row->id]).'"class=dit btn btn-primay btn-sm>View</a>';
                     return $btn;
+                })
+                ->editColumn('holiday_date', function($row){
+                    $date = Carbon::parse($row['holiday_date'])->format('d-m-Y');
+                    return $date;
+                })
+                ->editColumn('created_at', function($row){
+                    $date = Carbon::parse($row['created_at'])->format('d-m-Y');
+                    return $date;
+                })
+                ->editColumn('updated_at', function($row){
+                    $date = Carbon::parse($row['updated_at'])->format('d-m-Y');
+                    return $date;
                 })
                 ->rawColumns(['action'])->make(true);
 
@@ -386,19 +405,27 @@ class AdminController extends Controller
 
     public function saveAdminProfile(Request $request){
         $profile = new Profile();
-        if($files = $request->file('profileImage')){
-            $name=$files->getClientOriginalName();  
-            $files->move('images',$name);  
-            $profile->path=$name;  
+        if($request->hasFile('profileImage')){
+            $file = $request->file('profileImage');
+            $fileName = $file->getClientOriginalName();
+            $filepath = pathinfo($fileName, PATHINFO_FILENAME);
+            $fileExtension = $request->file('profileImage')->getClientOriginalExtension();
+            $fileNAmeTotore = $filepath.'-'.time().'.'.$fileExtension;
+            $path = $file->move(public_path('images'), $fileNAmeTotore);
+        }else{
+            $fileNAmeTotore = 'noImage.jpg';
         }
         $profile->education = $request->education;        
         $profile->location = $request->location;        
         $profile->companyName = $request->companyName;        
-        $profile->experience = $request->experience;        
+        $profile->experience = $request->experience; 
+        $profile->profileImage = $fileNAmeTotore;    
         $profile->skills = $request->skills;
         $res = $profile->save()        ;
 
-        dd($res);
+        if($res){
+            return back()->with('success', 'Profile Updated Successfully..');
+        }
 
         
 
@@ -430,6 +457,10 @@ class AdminController extends Controller
                     $btn= '<a href="'.route('edit-activitylist', ['id' => $row->id]).'"class=dit btn btn-primay btn-sm>View</a>';
                     return $btn;
                 })
+                ->editColumn('created_at', function($row){
+                    $date = Carbon::parse($row['created_at'])->format('d-m-y');
+                    return $date;
+                })
                 ->rawColumns(['action'])->make(true);
 
         }
@@ -441,6 +472,16 @@ class AdminController extends Controller
         return view('users.admin.editActivitylist', [
             'activitylist' => $activitylist
         ]);
+    }
+
+    public function updateUserActivityList(Request $request, $id){
+        $activitylist= ActivityList::findOrfail($id);
+        $activitylist->name = $request->name;
+        $res = $activitylist->save();
+        if($res) {
+            return redirect()->intended(route('create-acivity'))->with('success', 'Activity List Updated Successfully');
+        }
+
     }
 
     public function destroy($id){

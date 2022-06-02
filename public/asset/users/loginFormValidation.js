@@ -14,8 +14,8 @@ function loginvalidateform(){
         document.getElementById('userError').innerHTML="";
     }
 
-    if(password=""){
-        document.getElementById('passwordError').innerHTML="Invalid user.";
+    if(password==""){
+        document.getElementById('passwordError').innerHTML="Kindly enter your password...";
         return false;
     }
     else{

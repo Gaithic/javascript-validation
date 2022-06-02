@@ -24,7 +24,7 @@
 @section('content')
 <section class="content">
     <div class="container-fluid">
-          <form class="row" style="padding: 10px;" action="{{route('save-user')}}" method="POST" onsubmit="return createUserForm()">
+          <form class="row" style="padding: 10px;" action="{{ route('save-user') }}" method="POST" onsubmit="return createUserForm()">
             @csrf
             <div class="col-md-6">
                 <div class="card-header text-center">
@@ -104,7 +104,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                         </div>
-                        <input type="date" class="form-control" name="date_of_joining" id="date_of_joining"
+                        <input type="date" class="form-control" name="date_of_join" id="date_of_joining"
                                 value="{{old('date_of_joining')}}">
                         </div>
                         <!-- /.input group -->
@@ -112,7 +112,7 @@
                             <span id="dojError"  style="color: red; font-size:15px; font-weight:700;" ></span>
                         </div>
 
-                        @error('date_of_joining')
+                        @error('date_of_join')
                         <div class="alert alert-danger" role="alert">
                             <small>
                                 <strong >{{ $message }}</strong>
@@ -159,7 +159,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-user-circle"></i></span>
                             </div>
-                            <select style="padding: 5px;" name="district" id="district">
+                            <select style="padding: 5px;" name="district_id" id="district">
                                 <option value="">Map District For Employee</option>
                                 @foreach ($districts as $district)
                                     <option value="{{ $district->id }}">{{ $district->districtName }}</option>
@@ -189,7 +189,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="far fa-circle"></i></span>
                         </div>
-                            <select style="padding: 5px;" name="circle" id="circle">
+                            <select style="padding: 5px;" name="circle_id" id="circle">
                                 <option value="">Map Circle For Employee</option>
                             </select>
                         </div>
@@ -213,7 +213,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fa fa-divide"></i></span>
                         </div>
-                            <select style="padding: 5px;" name="division" id="division">
+                            <select style="padding: 5px;" name="division_id" id="division">
                                 <option value="">Map Division For Employee</option>
                             </select>
                         </div>
@@ -239,7 +239,7 @@
                             <span class="input-group-text"><i class="fa fa-road"></i></span>
                         </div>
 
-                        <select style="padding: 5px;" name="range" id="range">
+                        <select style="padding: 5px;" name="range_id" id="range">
                             <option value="">Map Range For Employee</option>
                         </select>
                         </div>
@@ -305,7 +305,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fa fa-male"></i></span>
                         </div>
-                            <select name="gender"id="gender" value="{{old('gender')}}" style="padding: 5px;">
+                            <select name="gender" id="gender" value="{{old('gender')}}" style="padding: 5px;">
                                 <option value="">Select</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
@@ -431,14 +431,14 @@
                             <span class="input-group-text"><i class="fa fa-lock"></i></span>
                         </div>
                         <input type="password" class="form-control"
-                            name="password_confirmation"  id="comfirm_password">
+                            name="password_confirmation"  id="confirm_password">
                         </div>
 
                         <div style="margin: 5px;">
                             <span id="confirmError"  style="color: red; font-size:15px; font-weight:700;" ></span>
                         </div>
                         <!-- /.input group -->
-                        @error('password')
+                        @error('password_confirmation')
                         <div class="alert alert-danger" role="alert">
                             <small>
                                 <strong >{{ $message }}</strong>
@@ -481,8 +481,8 @@
                                 <span class="input-group-text"><i class="fa fa-running"></i></span>
                                 <select  name="status"  id="status" style="padding: 5px;">
                                     <option value="" style="color: black;  font-weight:900;">Select Status</option>
-                                    <option value="active" style="color: green;  font-weight:900;">Approve</option>
-                                    <option value="non-active" style="color: red; font-weight:900;">Reject</option>
+                                    <option value="1" style="color: green;  font-weight:900;">Approve</option>
+                                    <option value="0" style="color: red; font-weight:900;">Reject</option>
 
                                 </select>
 
@@ -506,7 +506,7 @@
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-running"></i></span>
-                                <select  name="isadmin" id="isadmin" style="padding: 5px;">
+                                <select  name="isAdmin" id="isadmin" style="padding: 5px;">
                                     <option value="" style="color: black;  font-weight:900;">Select Role</option>
                                     <option value="1" style="color: green;  font-weight:900;">Admin</option>
                                     <option value="0" style="color: red; font-weight:900;">Employee</option>
@@ -518,7 +518,7 @@
                             <div style="margin: 5px;">
                                 <span id="isadminError"  style="color: red; font-size:15px; font-weight:700;" ></span>
                             </div>
-                            @error('isadmin')
+                            @error('isAdmin')
                             <div class="alert alert-danger" role="alert">
                                 <small>
                                     <strong >{{ $message }}</strong>
@@ -546,7 +546,7 @@
 </section>
 
 @push('scripts')
-    <script src="{{ asset('/asset/js/admin/createUserFormValidate.js') }}"></script>
+    <script src="{{ asset('/asset/js/admin/createUserFormValidate.js') }}"></script>    
 @endpush
 
 <script >

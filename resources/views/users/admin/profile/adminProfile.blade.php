@@ -254,17 +254,18 @@
                   </div>
                   <!-- /.tab-pane -->
                   <div class="tab-pane" id="settings">
-                    <form action="" method="POST">
+                    <form action="{{ route('save-profile') }}" method="POST">
+                      @csrf
                       <div class="form-group row">
                         <label for="inputName" class="col-sm-2 col-form-label">Education</label>
                         <div class="col-sm-10">
-                          <input type="email" class="form-control" id="inputName" name="education" placeholder="Education">
+                          <input type="text" class="form-control" id="inputName" name="education" placeholder="Education">
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputEmail" class="col-sm-2 col-form-label">Location</label>
                         <div class="col-sm-10">
-                          <input type="email" class="form-control" id="inputEmail" name="location" placeholder="Location">
+                          <input type="text" class="form-control" id="inputEmail" name="location" placeholder="Location">
                         </div>
                       </div>
                       <div class="form-group row">
@@ -282,7 +283,7 @@
                       <div class="form-group row">
                         <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputSkills"name="Skills" placeholder="Skills...">
+                          <input type="text" class="form-control" id="inputSkills"name="skills" placeholder="Skills...">
                         </div>
                       </div>
 

@@ -262,7 +262,7 @@ function createUserForm(){
 
 
     const password = document.getElementById('password').value;
-    const cPassword = document .getElementById('comfirm_password').value;
+    const cPassword = document .getElementById('confirm_password').value;
     if(password==""){
         document.getElementById('passwordError').innerHTML ="Kindly fill Employee Password!!";
         return false;
@@ -280,7 +280,7 @@ function createUserForm(){
     }
 
 
-    if(cPassword!=password){
+    if(password!=cPassword){
         document.getElementById('confirmError').innerHTML = "kindly confirm  your password";
         return false;
     }else{

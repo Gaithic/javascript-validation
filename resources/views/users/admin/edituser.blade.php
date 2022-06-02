@@ -173,7 +173,6 @@
                             </div>
                             <select class="form-control" name="division_id" id="division" >
                                 <option value="{{ $user->divisions->id }}">{{ $user->divisions->divisionName }}</option>
-                               
                             </select>
                                 
                             </div>

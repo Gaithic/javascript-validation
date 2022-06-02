@@ -45,6 +45,7 @@
 <script src="{{asset('/asset/js/jquerydatatable.js') }}"></script>
 {{-- <script src="{{asset('/asset/js/datatables.js') }}"></script> --}}
 <script src="{{ asset('/asset/admin/plugins/chart.js/Chart.min.js') }}"></script>
+
 @stack('scripts')
 
 
@@ -59,6 +60,20 @@
     });
 
 </script>
+<script>
+  $(document).ready(function(){
+      $(".nav .nav-link").on("click", function(){
+      // // alert('hello');
+      $(".nav-item").find(".active").removeClass("active");
+      $(this).addClass("active");
+          $(".nav-item").on("click", function(){
+              $("nav-item").find(".active").removeClass("active");
+              $(this).addClass("active");
+          });         
+    });
+  });
+</script>
+
 
 @stack('scripts')
 

@@ -62,6 +62,9 @@ class AuthController extends Controller
                               ->get();
         $divisions = Circle::where('district_id', $division_id)->with('divisions')->get();
         $ranges = Division::where('circle_id', $range_id)->with('ranges')->get();
+        $circles = District::where('id', $parent_id)
+                              ->with('circles')
+                              ->get();
         return response()->json([
             'circles' => $circles,
             'divisions' => $divisions,
@@ -125,7 +128,7 @@ class AuthController extends Controller
                     return redirect()->intended(route('auth.index'))->with('success', 'Welcome to Dashboard');
                 }
             }else{
-                return redirect()->intended(route('login-view'))->with('error', 'Password does not match');
+                return redirect()->intended(route('login-view'))->with('error', 'Kindly Enter a Correct Password');
     
             }
         }
@@ -159,16 +162,16 @@ class AuthController extends Controller
 
                 if($date == $local_holiday){
                     Auth::logout();
-                  return redirect()->intended(route('login-view'))->with('success', 'Today is off!! try on working Days');
-                  
+                  return redirect()->intended(route('login-view'))->with('success', "Today is Local Holiday kindly try on working day's....");
+            
                 }else{
                     if($date1=="Sunday"){
                         Auth::logout();
-                        return redirect()->intended(route('login-view'))->with('success', 'Today is off!! try on working Days');
+                        return redirect()->intended(route('login-view'))->with('success', "Today is Sunday kindly try on working day's....");
                    }else{
                         if($date == $holiday){
                             Auth::logout();
-                            return redirect()->intended(route('login-view'))->with('success', 'Today is Second Saturday!! try on working Days');
+                            return redirect()->intended(route('login-view'))->with('success', "Today is Second Saturday kindly try on working day's....");
                         }else{
 
                             return redirect()->intended(route('user.index'))->with('success', 'Welcome to Dashboard!!');

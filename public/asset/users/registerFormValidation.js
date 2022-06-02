@@ -32,7 +32,7 @@ function validateForm(){
             return false;
         }else{
             if(!ifString.test(name)){
-                document.getElementById('nameError').innerHTML= "Only Word's are allowed...";
+                document.getElementById('nameError').innerHTML= "Numbers are not allowed...";
             }else{
                 document.getElementById('nameError').innerHTML= "";
 
@@ -81,10 +81,10 @@ function validateForm(){
         var differenceDate = theDate - inputDate;
 
         if(differenceAge > 100){
-            document.getElementById('dobError').innerHTML= "Age not be grater than 100 Years!!";
+            document.getElementById('dobError').innerHTML= "Age not be greater than 100 Years!!";
             return false;
         }else if(differenceAge==18 && dfferenceMonth<=0 && differenceDate<=0 || differenceAge<18 ){
-            document.getElementById('dobError').innerHTML= "Age should be grater than 18 year!!";
+            document.getElementById('dobError').innerHTML= "Age should be greater than 18 year!!";
         }
         else{
             if(dfferenceMonth<0 || (dfferenceMonth == 0 && differenceDate<0)){
@@ -113,7 +113,7 @@ function validateForm(){
         return false;
     }else{
         if(date_of_joining <= date_of_birth){
-            document.getElementById('dojError').innerHTML= "Date of Joining is is not less than or equal to the Date of Birth!!";
+            document.getElementById('dojError').innerHTML= "Date of Joining is not be less than or equal to the Date of Birth!!";
             return false;
         }else{
             var birthDay = new Date(date_of_birth)
@@ -139,12 +139,12 @@ function validateForm(){
 
 
            if(getDifference<18){
-                document.getElementById('dojError').innerHTML= "Age Difference Between Date of birth and Date of Joining Must be equal to grater than 18 Years!! ";
+                document.getElementById('dojError').innerHTML= "Age Difference Between Date of birth and Date of Joining Must be equal or greater than 18 Years!! ";
                 console.log(getDifference);
                 return false;
             }else if(getDifference==18 && getMonthDifference<=0 && getDateDifference<=0 || getDifference<18 ){
                 console.log(getDifference);
-                document.getElementById('dojError').innerHTML=  "Employee Age should be grater than 18 year!!";
+                document.getElementById('dojError').innerHTML=  "Employee Age should be greater than 18 year!!";
             }else{
                 if(getMonthDifference<0 || (getMonthDifference == 0 && getDateDifference<0)){
                     getDifference = parseInt(getDifference) -1;
@@ -158,7 +158,7 @@ function validateForm(){
                     var todayDate = new Date();
                     var getTodayFullDate = todayDate.getFullYear()+'-'+('0' + (todayDate.getMonth()+1)).slice(-2)+'-'+todayDate.getDate();
                     if(date_of_joining>getTodayFullDate){
-                        document.getElementById('dojError').innerHTML= "Date not be grater than today!!";
+                        document.getElementById('dojError').innerHTML= "Date of Joining not be greater than today!!";
                         return false;
                     }else{
                         document.getElementById('dojError').innerHTML= "";
@@ -218,16 +218,16 @@ function validateForm(){
 
 
     if(email==''){
-        document.getElementById('emailError').innerHTML="Please Enter @Email";
+        document.getElementById('emailError').innerHTML="Please Enter Valid Email Address...";
         return false;
     }
     else if((email.indexOf('@')<=0)){
-      document.getElementById('emailError').innerHTML="Invalid Index of @";
+      document.getElementById('emailError').innerHTML="Invalid Index of @ in email address";
       return false;
 
     }
     else if(email.charAt(email.length-3)!='.' && email.charAt(email.length-4)!='.'){
-      document.getElementById('emailError').innerHTML="Invalid Email.";
+      document.getElementById('emailError').innerHTML="Invalid index of Email .";
       return false;
 
     }else{
@@ -244,7 +244,7 @@ function validateForm(){
     }
 
     if(isNaN(contact)){
-        document.getElementById('contactError').innerHTML=" ** Must write numbers not characters";
+        document.getElementById('contactError').innerHTML=" ** Only Numbers are allowed...";
         return false;
 
     }else{
@@ -252,7 +252,7 @@ function validateForm(){
     }
 
     if(contact.length!=10){
-        document.getElementById('contactError').innerHTML=" ** Number length should be 10";
+        document.getElementById('contactError').innerHTML=" ** Number length should be 10 digiti only";
         return false;
 
     }else{
@@ -268,7 +268,7 @@ function validateForm(){
         return false
     }else{
         if(hackSafe.test(username)){
-            document.getElementById('usernameError').innerHTML = "Special Character's are not allowed";
+            document.getElementById('usernameError').innerHTML = "Numbers' are not allowed";
         }else{
 
             document.getElementById('usernameError').innerHTML = "";
@@ -296,7 +296,7 @@ function validateForm(){
 
     //match password and confirm password
     if(password!=cPassword){
-        document.getElementById('cPasswordError').innerHTML = "Password is not match";
+        document.getElementById('cPasswordError').innerHTML = "password does not match";
         return false;
     }else{
         document.getElementById('passwordError').innerHTML = "";

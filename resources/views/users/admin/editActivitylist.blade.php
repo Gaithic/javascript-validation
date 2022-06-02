@@ -25,11 +25,11 @@
     <section class="content-header">
       <div class="card card-primary my-4 p-4">
         <div class="card-header">
-          <h3 class="card-title">Local Activity</h3>
+          <h3 class="card-title">Create New Activity</h3>
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form  action="{{ route('save-acivity') }}"  method="post"  onsubmit="return activityFormValidation()">
+        <form  action="{{ route('update-acivity', ['id' => $activitylist->id]) }}"  method="post"  onsubmit="return activityFormValidation()">
             @csrf
                 <div class="card-body">
                     <div class="form-group">

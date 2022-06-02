@@ -39,8 +39,10 @@ class AdminCreateUserValidation extends FormRequest
             'gender' => 'required',
             'qualification' => 'required',
             'username' => 'required|unique:users,username|min:5',
-            'password' => 'required',
-            // 'comfirm_password' => 'required'
+            'password' => 'required|confirmed',
+            'password_confirmation' => 'required',
+            'isAdmin' => 'required',
+            'status' => 'required'
         ];
     }
 }

@@ -6,7 +6,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">Home</a>
+        <a href="#" class="nav-link">Home</a>
       </li>
     </ul>
   
@@ -47,7 +47,7 @@
   
   
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4 ">
+  <aside class="main-sidebar sidebar-dark-primary elevation-4" id="asidebar">
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
       {{-- <img src="" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> --}}
@@ -78,15 +78,15 @@
                 with font-awesome or any other icon font library -->
   
           <li class="nav-item">
-            <a href="{{ route('admin-index') }}" class="nav-link">
+            <a href="{{ route('admin-index')}}" class="nav-link {{ (Route::is('admin-index')) ? 'active' : '' }}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
               </p>
             </a>
           </li>
-          <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
+          <li class="nav-item">
+            <a href="#" class="nav-link {{ (Route::is('manage-users')) ? 'active' : '' }}">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Users
@@ -95,7 +95,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('manage-users')}}" class="nav-link active">
+                <a href="{{route('manage-users')}}" class="nav-link ">
                   <i class="fa fa-list nav-icon"></i>
                   <p>View All</p>
                 </a>
@@ -129,7 +129,7 @@
           </li>
   
           <li class="nav-item menu-open">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link {{ (Route::is('show-chart')) ? 'active' : '' }}">
               <i class="nav-icon fas fa-book"></i>
               <p>
                 Reports
@@ -162,26 +162,22 @@
   
   
           <li class="nav-item">
-            <a href="{{ route('create-holiday') }}" class="nav-link">
-                {{-- <i class="fa fa-sign-out-circle nav-icon" aria-hidden="true"></i> --}}
+            <a href="{{ route('create-holiday') }}" class="nav-link {{ (Route::is('create-holiday')) ? 'active' : '' }}">
                 <i class="right fas fa-gear"></i>
-                {{-- <i class="fa fa-sign-out"></i> --}}
               <p >Create Holiday</p>
             </a>
           </li>
             
           <li class="nav-item">
-            <a href="{{ route('show-holiday') }}" class="nav-link">
-                {{-- <i class="fa fa-sign-out-circle nav-icon" aria-hidden="true"></i> --}}
+            <a href="{{ route('show-holiday') }}" class="nav-link {{ (Route::is('show-holiday')) ? 'active' : '' }}">
                 <i class="right fas fa-gear"></i>
-                {{-- <i class="fa fa-sign-out"></i> --}}
               <p >All Holiday</p>
             </a>
           </li>
   
   
           <li class="nav-item">
-              <a href="{{ route('admin-password')}}" class="nav-link">
+              <a href="{{ route('admin-password')}}" class="nav-link {{ (Route::is('admin-password')) ? 'active' : '' }}">
                   {{-- <i class="fa fa-sign-out-circle nav-icon" aria-hidden="true"></i> --}}
                   <i class="right fas fa-gear"></i>
                   {{-- <i class="fa fa-sign-out"></i> --}}
@@ -190,7 +186,7 @@
           </li>
           
           <li class="nav-item">
-            <a href="{{ route('activity-logIn-logOut') }}" class="nav-link">
+            <a href="{{ route('activity-logIn-logOut') }}" class="nav-link {{ (Route::is('activity-logIn-logOut')) ? 'active' : '' }}">
                 {{-- <i class="fa fa-sign-out-circle nav-icon" aria-hidden="true"></i> --}}
                 <i class="right fas fa-gear"></i>
                 {{-- <i class="fa fa-sign-out"></i> --}}
@@ -199,7 +195,7 @@
           </li>
 
           <li class="nav-item">
-            <a href="{{ route('admin-profile') }}" class="nav-link">
+            <a href="{{ route('admin-profile') }}" class="nav-link {{ (Route::is('admin-profile')) ? 'active' : '' }}">
                 {{-- <i class="fa fa-sign-out-circle nav-icon" aria-hidden="true"></i> --}}
                 <i class="right fas fa-gear"></i>
                 {{-- <i class="fa fa-sign-out"></i> --}}
@@ -208,7 +204,7 @@
           </li>
   
           <li class="nav-item">
-              <a href="{{route('logout')}}" class="nav-link">
+              <a href="{{route('logout')}}" class="nav-link {{ (Route::is('logout')) ? 'active' : '' }}">
                   {{-- <i class="fa fa-sign-out-circle nav-icon" aria-hidden="true"></i> --}}
                   <i class="fa fa-sign-out"></i>
                   {{-- <i class="fa fa-sign-out"></i> --}}

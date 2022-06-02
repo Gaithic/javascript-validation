@@ -25,7 +25,7 @@
     <section class="content-header">
       <div class="card card-primary my-4 p-4">
         <div class="card-header">
-          <h3 class="card-title">Local Activity</h3>
+          <h3 class="card-title">Create New Activity for employees</h3>
         </div>
         <!-- /.card-header -->
         <!-- form start -->
@@ -49,7 +49,7 @@
           </div>
         </form>
         
-        <table class="table" id="data-table">
+        <table class="table" id="data-table" style="margin:10px;">
           <thead>
               <tr>
                   <th>id</th>

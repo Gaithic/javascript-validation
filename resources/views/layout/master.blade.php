@@ -22,6 +22,7 @@
     @include('layout.inc.navbar')
     @yield('content')
     <script defer src="{{ asset('/asset/users/registerFormValidation.js') }}"></script>
+    <script defer src="{{ asset('/asset/users/loginFormValidation.js') }}"></script>
     <script src="{{asset('/asset/js/jquerydatatable.js') }}"></script>
     <script src="{{asset('/asset/js/toaster.js') }}"></script>
     <script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
@@ -43,7 +44,17 @@
             toastr.success('{{ Session::get('success') }}');
         @endif
     });
-
+</script>
+<script>
+     $(document).ready(function () {
+ 
+        $('ul.navbar-nav > li')
+                .click(function (e) {
+            $('ul.navbar-nav > li')
+                .removeClass('active');
+            $(this).addClass('active');
+        });
+    });
 </script>
 </body>
 </html>
