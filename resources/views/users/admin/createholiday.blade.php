@@ -17,7 +17,6 @@
       </div><!-- /.row -->
     </div><!-- /.container-fluid -->
   </div>
-  <a href="{{ route('admin-index') }}" class="btn btn-warning" style="margin-left:30px;">Back</a>
   <!-- /.content-header -->
 @endsection
 
@@ -56,7 +55,7 @@
 
     
       </div>
-   
+      <a href="{{ route('admin-index') }}" class="btn btn-warning">Back</a>
     </section>
     @push('scripts')
           <script src="{{ asset('asset/js/admin/createholiday.js') }}"></script>

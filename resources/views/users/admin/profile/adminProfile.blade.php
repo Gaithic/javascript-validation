@@ -17,7 +17,7 @@
         </div><!-- /.col -->
       </div><!-- /.row -->
     </div><!-- /.container-fluid -->
-    <a href="{{ route('admin-index') }}" class="btn btn-warning" style="margin-left:20px;">Back</a>
+    {{-- <a href="{{ route('admin-index') }}" class="btn btn-warning" style="margin-left:20px;">Back</a> --}}
   </div>
   <!-- /.content-header -->
 @endsection
@@ -35,8 +35,11 @@
               <div class="card-body box-profile">
                 <div class="text-center">
                   <img class="profile-user-img img-fluid img-circle"
-                       src="../../dist/img/user4-128x128.jpg"
-                       alt="User profile picture">
+                  @foreach ($profile as $pro)
+                      
+                  @endforeach
+                      src="{{ url('/asset/images/'.$pro->profileImage) }}"
+                      alt="User profile picture">
                 </div>
 
                 <h3 class="profile-username text-center"> {{ auth()->user()->name }}</h3>
@@ -123,7 +126,7 @@
                     
                         <div class="post">
                         <div class="user-block">
-                            <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
+                            {{-- <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image"> --}}
                             <span class="username">
                             <a href="#">{{ $act->user->name }}</a>
 
@@ -135,7 +138,7 @@
                         </span>
                         <div class="description">Shared publicly - {{ $act->created_at }} </div>
                     </div>
-                        <a href="#">{{ $act->description }}</a>
+                        <a href="#">{!! $act->description !!}</a>
                         
                       
 
@@ -254,7 +257,7 @@
                   </div>
                   <!-- /.tab-pane -->
                   <div class="tab-pane" id="settings">
-                    <form action="{{ route('save-profile') }}" method="POST">
+                    <form action="{{ route('save-profile') }}" method="POST"  enctype="multipart/form-data">
                       @csrf
                       <div class="form-group row">
                         <label for="inputName" class="col-sm-2 col-form-label">Education</label>

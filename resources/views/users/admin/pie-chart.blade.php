@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 
-@section('breadcrumbs')
+{{-- @section('breadcrumbs')
   <!-- Content Header (Page header) -->
   <div class="content-header">
     <div class="container-fluid">
@@ -20,12 +20,12 @@
   </div>
   <a href="{{ route('admin-index') }}" class="btn btn-warning" style="margin-left:30px;">Back</a>
   <!-- /.content-header -->
-@endsection
+@endsection --}}
 
 @section('content')
 <div class="container">
-    <h2 style="text-align: center; margin:5px;">Total Number of Registered Employee's Per District</h2>
-    <div class="card card-danger">
+  <div class="card card-danger">
+      <h2 style="text-align: center; margin:5px;">Total Number of Registered Employee's Per District</h2>
         <div class="card-header">
           <h3 class="card-title">Pie Chart</h3>
 
@@ -55,6 +55,7 @@
           <div class="card-body">
             
               <canvas class="chart has-fixed-height" id="pie-chart"></canvas>
+              <a href="{{ route('admin-index') }}" class="btn btn-warning m-2" >Back</a>
           </div>
         <!-- /.card-body -->
       </div>

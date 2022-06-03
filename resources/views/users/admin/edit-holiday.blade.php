@@ -17,7 +17,6 @@
       </div><!-- /.row -->
     </div><!-- /.container-fluid -->
   </div>
-  <a href="{{ route('admin-index') }}" class="btn btn-warning" style="margin-left:30px;">Back</a>
   <!-- /.content-header -->
 @endsection
 
@@ -66,6 +65,8 @@
         </form>
       </div>
     </div><!-- /.container-fluid -->
+    <a href="{{ route('admin-index') }}" class="btn btn-warning m-2" >Back</a>
+  </section>
 
 
 <script src="{{ asset('/asset/js/sweetalert/sweetalert.min.js') }}"></script>

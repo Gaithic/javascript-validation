@@ -13,7 +13,7 @@ use App\Models\Holidays;
 use App\Models\OfficesName;
 use App\Models\Range;
 use App\Models\User;
-use App\Models\Profile;
+use App\Models\profile;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Action;
 use Illuminate\Support\Facades\DB;
@@ -142,6 +142,17 @@ class AdminController extends Controller
 
 
     public function createUser(AdminCreateUserValidation $request){
+        $user = Auth::user();
+        $isAdmin = $user->isAdmin;
+        $date = Carbon::now();
+        $todayDdate = $date->toDayDateTimeString();
+
+        $activityLog = [
+            'name' => $user->name,
+            'email' => $user->email,
+            'description' => 'New user created by admin',
+            'date_time' => $todayDdate
+        ];
         $user = new User();
         $user->name = $request->name;
         $user->designation = $request->designation;
@@ -152,7 +163,7 @@ class AdminController extends Controller
         $user->range_id = $request->range_id;
         $user->gender = $request->gender;
         $user->circle_id = $request->circle_id;
-        $user->division_id = $request->division;
+        $user->division_id = $request->division_id;
         $user->office_address = $request->office_address;
         $user->qualification = $request->qualification;
         $user->username =trim(strtolower($request->username));
@@ -163,9 +174,8 @@ class AdminController extends Controller
         $user->status = $request->status;
         $res = $user->save();
 
-        // dd($res);
         if($res){
-            // DB::table('activity_logs')->insert($activityLog);
+            DB::table('activity_logs')->insert($activityLog);
             return redirect()->intended(route('create-user'))->with('success', 'Employee Created Successfully');
         }
     }
@@ -279,6 +289,7 @@ class AdminController extends Controller
 
 
     public function deleteHoliday($id){
+        
         $holiday = Holidays::findOrFail($id);
         $holiday->delete();
         return redirect()->intended(route('show-holiday'))->with('success', 'Holiday Deleted Successfully');
@@ -317,11 +328,7 @@ class AdminController extends Controller
 
 
     public function updateUserActivity(Request $request, $id){
-        $activity = Activity::findOrFail($id);
-        $today = date('Y-m-d');
-        if($today>$activity->created_at){
-            return back()->with('error', "Sorry you don't have a permission to Edit the Previous days activities...");
-        }else{
+            $activity = Activity::findOrFail($id);
             $user = Auth::user();
             $isAdmin = $request->isAdmin;
             $date = Carbon::now();
@@ -340,15 +347,13 @@ class AdminController extends Controller
             $activity->datetime  = $request->datetime;
             $activity->activityName = $request->activityName;
             $res = $activity->save();
-            DB::table('activity_logs')->insert($activityLog);
-
+            
             if($res){
-                // dd($activityLog);
+                DB::table('activity_logs')->insert($activityLog);
                 return back()->with('success', 'Activity Updated Successfully...');
             }else{
                 return back()->with('success', 'Something Went Wrong!!, Try again Later...');
             }
-        }
     }
 
 
@@ -405,34 +410,40 @@ class AdminController extends Controller
 
         $users = Activity::query()->with('user')->orderBy("created_at", "desc");
         $activity = Activity::where('user_id',auth()->user()->id)->paginate(4);
+        $profile = profile::all();
         return view('users.admin.profile.adminProfile',[
             'users' => $users,
-            'activity' => $activity
+            'activity' => $activity,
+            'profile' => $profile
         ]);
     }
 
     public function saveAdminProfile(Request $request){
-        $profile = new Profile();
         if($request->hasFile('profileImage')){
             $file = $request->file('profileImage');
             $fileName = $file->getClientOriginalName();
             $filepath = pathinfo($fileName, PATHINFO_FILENAME);
             $fileExtension = $request->file('profileImage')->getClientOriginalExtension();
             $fileNAmeTotore = $filepath.'-'.time().'.'.$fileExtension;
-            $path = $file->move(public_path('images'), $fileNAmeTotore);
+            $path = $file->move(public_path('/asset/images'), $fileNAmeTotore);
+            // dd($path);
         }else{
             $fileNAmeTotore = 'noImage.jpg';
         }
+        $profile = new Profile();
         $profile->education = $request->education;
         $profile->location = $request->location;
         $profile->companyName = $request->companyName;
         $profile->experience = $request->experience;
         $profile->profileImage = $fileNAmeTotore;
         $profile->skills = $request->skills;
-        $res = $profile->save()        ;
+        $profile->user_id = Auth::user()->id;
+        $res = $profile->save();
 
         if($res){
-            return back()->with('success', 'Profile Updated Successfully..');
+            return back()->with('success', 'Profile Updated Successfully..', [
+                'profile' => $profile
+            ]);
         }
 
 
@@ -493,6 +504,20 @@ class AdminController extends Controller
     }
 
     public function destroy($id){
+        $user = Auth::user();
+
+        $isAdmin = $user->isAdmin;
+        $date = Carbon::now();
+        $todayDdate = $date->toDayDateTimeString();
+
+        $activityLog = [
+            'name' => $user->name,
+            'email' => $user->email,
+            'description' => 'Employee deleted by admin',
+            'date_time' => $todayDdate
+        ];
+
+        DB::table('activity_logs')->insert($activityLog);
         $user = User::findOrFail($id);
         $user->delete();
         return redirect()->intended(route('manage-users'))->with('success', 'User Deleted Successfully');

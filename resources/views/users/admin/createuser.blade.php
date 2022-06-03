@@ -17,7 +17,6 @@
       </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
-<a href="{{ route('admin-index') }}" class="btn btn-warning" style="margin-left:30px;">Back</a>
   <!-- /.content-header -->
 @endsection
 
@@ -482,7 +481,7 @@
                                 <select  name="status"  id="status" style="padding: 5px;">
                                     <option value="" style="color: black;  font-weight:900;">Select Status</option>
                                     <option value="1" style="color: green;  font-weight:900;">Approve</option>
-                                    <option value="0" style="color: red; font-weight:900;">Reject</option>
+                                    <option value="2" style="color: red; font-weight:900;">Reject</option>
 
                                 </select>
 
@@ -539,6 +538,7 @@
                 <div class="form-submit">
                     <input type="submit" value="Create" class="btn btn-success" id="submit" name="submit" />
                     <button type="submit" value="Cancel" class="btn btn-danger" id="reset" name="reset" >Cancel</button>
+                    <a href="{{ route('admin-index') }}" class="btn btn-warning">Back</a>
                 </div>
             </form>
     </div>

@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('breadcrumbs')
+{{-- @section('breadcrumbs')
   <!-- Content Header (Page header) -->
   <div class="content-header">
     <div class="container-fluid">
@@ -19,7 +19,7 @@
   </div>
   <!-- /.content-header -->
   <a href="{{ route('admin-index') }}" class="btn btn-warning" style="margin-left:30px;">Back</a>
-@endsection
+@endsection --}}
 
 @section('content')
     <div class="container-fluid" style="padding: 10px;">
@@ -148,6 +148,7 @@
                         </div>
                         <div class="card-body">
                           <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 1000px; max-width: 100%;"></canvas>
+                          <a href="{{ route('admin-index') }}" class="btn btn-warning m-2">Back</a>
                         </div>
                         <!-- /.card-body -->
                       </div>
@@ -285,7 +286,7 @@
                                 })
                             }
                         })
-                    })                     
+                    })
                 }
             })
         });
@@ -295,29 +296,28 @@
         if($('#from_date').val() && $('#to_date').val() ) {
             var start_date =$('#from_date').val();
             var end_date = $('#to_date').val();
+            var dist_id = $('#district').val();
             $.ajax({
                 url:"{{ route('get-fields') }}",
                 data:{
                     start_date: start_date,
-                    end_date: end_date
+                    end_date: end_date,
+                    dist_id : dist_id
+
                 },
                 success:function(data){
                     console.log(data);
                     let jsonDist = data;
                     labels=[];
                     data=[];
-                    // for (const [key, value] of Object.entries(jsonDist.activityCount.date)) {
+
                     for(var i=0;i<jsonDist.activityCount.date.length;i++){
                         console.log(jsonDist.activityCount.date[i].created_at);
                         labels.push(jsonDist.activityCount.date[i].created_at);
                         data.push(jsonDist.activityCount.date[i].activityCount);
                     }       
-
-                    // for(var i=0;i<jsonDist.activityCount;i++){
-                    //     data.push(jsonDist.activityCount.activityCount);
-                    // }
-                   
-                    console.log(labels);
+            
+                    // console.log(labels);
                     const ctx = document.getElementById('pieChart');
                     const myChart = new Chart(ctx, {
                         type: 'pie',

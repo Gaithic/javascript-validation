@@ -113,10 +113,17 @@
                                 <span class="input-group-text"><i class="fa fa-home"></i></span>
                             </div>
                             <select class="form-control" name="office_id" id="office" >
-                                <option value="{{ $user->office->id }}">{{ $user->office->officeName }}</option>
-                                @foreach ($offices as $office)
-                                    <option value="{{ $office->id }}">{{ $office->officeName }}</option>
-                                @endforeach
+                                @empty($user->office->id )
+                                    <option value=""></option>
+                                    @foreach ($offices as $office)
+                                        <option value="{{ $office->id }}">{{ $office->officeName }}</option>
+                                    @endforeach
+                                @else
+                                    <option value="{{ $user->office->id }}">{{ $user->office->officeName }}</option>
+                                    @foreach ($offices as $office)
+                                        <option value="{{ $office->id }}">{{ $office->officeName }}</option>
+                                    @endforeach
+                                @endempty                               
                             </select>
                             </div>
                             <div style="margin: 5px;">
@@ -172,7 +179,11 @@
                                 <span class="input-group-text"><i class="fa fa-divide"></i></span>
                             </div>
                             <select class="form-control" name="division_id" id="division" >
-                                <option value="{{ $user->divisions->id }}">{{ $user->divisions->divisionName }}</option>
+                                @empty($user->divisions->id)
+                                    <option value=""></option>
+                                @else
+                                    <option value="{{ $user->divisions->id }}">{{ $user->divisions->divisionName }}</option>
+                                @endempty
                             </select>
 
                             </div>
@@ -363,7 +374,7 @@
 
                 <div class="form-submit">
                     <input type="submit" value="Update" class="btn btn-success" id="submit" name="submit" class="submit"/>
-                    <a href="{{ route('delete-user', ['id' => $user->id]) }}" class="button delete-confirm">Delete</a>
+                    <a href="{{ route('delete-user', ['id' => $user->id]) }}" class="button delete-confirm  btn btn-danger">Delete</a>
                 </div>
             </form>
 

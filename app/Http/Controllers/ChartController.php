@@ -57,23 +57,30 @@ class ChartController extends Controller
             $activityCount = Activity::where('user_id', $request->user_id)
             ->count();
         }elseif($request->start_date){
-            $from = date('Y-m-d',strtotime($request->start_date)).' 00:00:00';
-            $to = date('Y-m-d',strtotime($request->end_date)).' 23:59:59';
-            $startDate = Activity::select(DB::raw('COUNT(*) as activityCount'),'created_at')->whereBetween('created_at',[$from,$to])
-            ->orderBy('created_at')->groupBy('created_at')->get();
-            // $activityCount = $startDate->count();
-            
+            if($request->dist_id){
+                $from = date('Y-m-d',strtotime($request->start_date)).' 00:00:00';
+                $to = date('Y-m-d',strtotime($request->end_date)).' 23:59:59';
+                $startDate = Activity::select(DB::raw('COUNT(*) as activityCount'),'created_at')->whereBetween('created_at',[$from,$to])
+                ->where('district_id', $request->dist_id)
+                ->orderBy('created_at')->groupBy('created_at')->get();
+                
+                $activityCount['date'] = $startDate;
+                foreach ($activityCount['date'] as $sd){ 
+                    $sd->created_at = date('d-m-Y',strtotime($sd->created_at));
+                }
+                
 
-            $activityCount['date'] = $startDate;
-            foreach ($activityCount['date'] as $sd){ 
-                $sd->created_at = date('d-m-Y',strtotime($sd->created_at));
+            }else{
+                $from = date('Y-m-d',strtotime($request->start_date)).' 00:00:00';
+                $to = date('Y-m-d',strtotime($request->end_date)).' 23:59:59';
+                $startDate = Activity::select(DB::raw('COUNT(*) as activityCount'),'created_at')->whereBetween('created_at',[$from,$to])
+                ->orderBy('created_at')->groupBy('created_at')->get();
+                
+                $activityCount['date'] = $startDate;
+                foreach ($activityCount['date'] as $sd){ 
+                    $sd->created_at = date('d-m-Y',strtotime($sd->created_at));
+                }
             }
-// dd($startDate);
-            
-            
-            // $activityCount['activityCount'] = $startDate->count();
-
-
         }
        
         $district = User::where('id', $user_id)->with(['districts', 'circles', 'divisions', 'ranges', 'activities'])->get();

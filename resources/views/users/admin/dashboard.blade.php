@@ -38,12 +38,10 @@
                 <div class="small-box bg-info">
                   <div class="inner">
                     <h2>{{count($users)}}</h2>
-
-
                     <p>Registered Users</p>
                   </div>
                   <div class="icon">
-                    <i class="ion ion-bag"></i>
+                    <i class="nav-icon fas fa-users text-white"></i>
                   </div>
                   <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
@@ -58,7 +56,7 @@
                     <p>Total Number Of local holidays in this Year</p>
                   </div>
                   <div class="icon">
-                    <i class="ion ion-stats-bars"></i>
+                      <i class="fas fa-suitcase nav-icon text-white"></i>
                   </div>
                   <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
@@ -68,13 +66,13 @@
                 <!-- small box -->
                 <div class="small-box bg-warning">
                   <div class="inner">
-                    <h3>{{count($pending)}}</h3>
-                    <p>count of pending employees account for Approval</p>
+                    <h3 class="text-white">{{count($pending)}}</h3>
+                    <p>count of pending employees for Approval</p>
                   </div>
                   <div class="icon">
-                    <i class="ion ion-person-add"></i>
+                    <i class="nav-icon fas fa-parking text-white"></i>
                   </div>
-                  <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                  <a href="#" class="small-box-footer text-white"> More info <i class="fas fa-arrow-circle-right text-white"></i></a>
                 </div>
               </div>
               <!-- ./col -->
@@ -87,9 +85,9 @@
                     <p>count of rejected Employees account</p>
                   </div>
                   <div class="icon">
-                    <i class="ion ion-pie-graph"></i>
+                    <i class="nav-icon fas fa-ban text-white"></i>
                   </div>
-                  <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                  <a href="#" class="small-box-footer text-white"> More info <i class="fas fa-arrow-circle-right text-white"></i></a>
                 </div>
               </div>
               <!-- ./col -->

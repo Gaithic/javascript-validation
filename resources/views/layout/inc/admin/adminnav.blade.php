@@ -85,42 +85,33 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link {{ (Route::is('manage-users')) ? 'active' : '' }}">
+          <li class="nav-item menu-open">
+            <a href="#" class="nav-link {{ (Route::is('manage-users', 'create-user' , 'create-acivity')) ? 'active' : '' }}">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Users
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
+            <ul class="nav nav-treeview" style="background-color: #222;
+            background-image: linear-gradient(315deg, #396375 0%, #2222 74%);">
               <li class="nav-item">
-                <a href="{{route('manage-users')}}" class="nav-link ">
-                  <i class="fa fa-list nav-icon"></i>
-                  <p>View All</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('create-user')}}" class="nav-link">
+                <a href="{{ route('create-user')}}" class="nav-link {{ (Route::is('create-user')) ? 'active' : '' }}">
                   <i class="fa fa-plus-circle nav-icon" aria-hidden="true"></i>
                   <p>Create User</p>
                 </a>
               </li>
   
               <li class="nav-item">
-                  <a href="{{route('manage-users')}}" class="nav-link">
-                      {{-- <i class="fa fa-sign-out-circle nav-icon" aria-hidden="true"></i> --}}
-                      <i class="right fas fa-user"></i>
-                      {{-- <i class="fa fa-sign-out"></i> --}}
-                    <p>Manage Users</p>
+                <a href="{{route('manage-users')}}" class="nav-link {{ (Route::is('manage-users')) ? 'active' : '' }}">
+                  <i class="fas fa-user nav-icon"></i>
+                  <p>Manage Users</p>
                   </a>
               </li>
 
               <li class="nav-item">
-                <a href="{{route('create-acivity')}}" class="nav-link">
-                    {{-- <i class="fa fa-sign-out-circle nav-icon" aria-hidden="true"></i> --}}
-                    <i class="right fas fa-lock"></i>
-                    {{-- <i class="fa fa-sign-out"></i> --}}
+                <a href="{{route('create-acivity')}}" class="nav-link {{ (Route::is('create-acivity')) ? 'active' : '' }}">
+                    <i class="fas fa-school nav-icon"></i>
                   <p>Create New Activity</p>
                 </a>
             </li>
@@ -129,30 +120,31 @@
           </li>
   
           <li class="nav-item menu-open">
-            <a href="#" class="nav-link {{ (Route::is('show-chart')) ? 'active' : '' }}">
-              <i class="nav-icon fas fa-book"></i>
+            <a href="#" class="nav-link {{ (Route::is('show-chart', 'show-reports', 'show-user-activity')) ? 'active' : '' }}">
+              <i class="nav-icon fas fa-chart-pie"></i>
               <p>
                 Reports
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
+            <ul class="nav nav-treeview" style="style=background-color: #222;
+            background-image: linear-gradient(315deg, #396375 0%, #2222 74%);">
               <li class="nav-item">
-                <a href="{{ route('show-chart') }}" class="nav-link active">
+                <a href="{{ route('show-chart') }}" class="nav-link {{ (Route::is('show-chart')) ? 'active' : '' }}">
                   <i class="fa fa-list nav-icon"></i>
                   <p>View Employee Statics</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('show-reports')}}" class="nav-link">
+                <a href="{{ route('show-reports')}}" class="nav-link {{ (Route::is('show-reports')) ? 'active' : '' }}">
                   <i class="fa fa-plus-circle nav-icon" aria-hidden="true"></i>
                   <p>Specific Report's</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="{{ route('show-user-activity')}}" class="nav-link">
-                  <i class="fa fa-book-circle nav-icon" aria-hidden="true"></i>
+                <a href="{{ route('show-user-activity')}}" class="nav-link {{ (Route::is('show-user-activity')) ? 'active' : '' }} ">
+                  <i class="fa fa-book nav-icon" aria-hidden="true"></i>
                   <p>User All Activity List</p>
                 </a>
               </li>
@@ -163,14 +155,14 @@
   
           <li class="nav-item">
             <a href="{{ route('create-holiday') }}" class="nav-link {{ (Route::is('create-holiday')) ? 'active' : '' }}">
-                <i class="right fas fa-gear"></i>
+                <i class="nav-icon far fa-calendar-alt"></i>
               <p >Create Holiday</p>
             </a>
           </li>
             
           <li class="nav-item">
             <a href="{{ route('show-holiday') }}" class="nav-link {{ (Route::is('show-holiday')) ? 'active' : '' }}">
-                <i class="right fas fa-gear"></i>
+                <i class="fas fa-suitcase nav-icon"></i>
               <p >All Holiday</p>
             </a>
           </li>
@@ -178,36 +170,28 @@
   
           <li class="nav-item">
               <a href="{{ route('admin-password')}}" class="nav-link {{ (Route::is('admin-password')) ? 'active' : '' }}">
-                  {{-- <i class="fa fa-sign-out-circle nav-icon" aria-hidden="true"></i> --}}
-                  <i class="right fas fa-gear"></i>
-                  {{-- <i class="fa fa-sign-out"></i> --}}
+                  <i class="fas fa-lock-open"></i>
                 <p >Change Password</p>
               </a>
           </li>
           
           <li class="nav-item">
             <a href="{{ route('activity-logIn-logOut') }}" class="nav-link {{ (Route::is('activity-logIn-logOut')) ? 'active' : '' }}">
-                {{-- <i class="fa fa-sign-out-circle nav-icon" aria-hidden="true"></i> --}}
-                <i class="right fas fa-gear"></i>
-                {{-- <i class="fa fa-sign-out"></i> --}}
+                <i class="nav-icon fas fa-edit"></i>
               <p >Check Logs</p>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="{{ route('admin-profile') }}" class="nav-link {{ (Route::is('admin-profile')) ? 'active' : '' }}">
-                {{-- <i class="fa fa-sign-out-circle nav-icon" aria-hidden="true"></i> --}}
-                <i class="right fas fa-gear"></i>
-                {{-- <i class="fa fa-sign-out"></i> --}}
+                <i class="nav-icon fas fa-user-edit"></i>
               <p >Update Profile</p>
             </a>
           </li>
   
           <li class="nav-item">
               <a href="{{route('logout')}}" class="nav-link {{ (Route::is('logout')) ? 'active' : '' }}">
-                  {{-- <i class="fa fa-sign-out-circle nav-icon" aria-hidden="true"></i> --}}
-                  <i class="fa fa-sign-out"></i>
-                  {{-- <i class="fa fa-sign-out"></i> --}}
+                  <i class="fas fa-sign-out-alt"></i>
                 <p >Logout</p>
               </a>
             </li>

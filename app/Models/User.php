@@ -82,6 +82,12 @@ class User extends Authenticatable
       return $this->hasMany(Activity::class, 'user_id');
     }
 
+
+    public function profile()
+    {
+       return $this->belongsTo(profile::class, 'user_id');
+    }
+
     
 
 }

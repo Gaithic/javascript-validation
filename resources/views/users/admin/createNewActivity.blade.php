@@ -17,7 +17,6 @@
       </div><!-- /.row -->
     </div><!-- /.container-fluid -->
   </div>
-  <a href="{{ route('admin-index') }}" class="btn btn-warning" style="margin-left:30px;">Back</a>
   <!-- /.content-header -->
 @endsection
 
@@ -48,21 +47,31 @@
             <a class="btn btn-primary" id="seeActivity" name="seeActivity" >See or Edit Activity</a>
           </div>
         </form>
-        
-        <table class="table" id="data-table" style="margin:10px;">
-          <thead>
-              <tr>
-                  <th>id</th>
-                  <th>Name</th>
-                  <th>Created On</th>
-                  <th>Action</th> 
-              </tr>
-          </thead>
-          <tbody>
+        <div class="container-fluid">
+          <div class="card">
+              <div class="card-header">
+                  All Users
+              </div>
+              <div class="card-body table-responsive table-striped table-bordered">
+  
+                  <table class="table" id="data-table">
+                      <thead>
+                          <tr>
+                            <th>id</th>
+                            <th>Name</th>
+                            <th>Created On</th>
+                            <th>Action</th> 
+                          </tr>
+                      </thead>
+                      <tbody>
+  
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+        </div>
 
-          </tbody>
-      </table>
-
+        <a href="{{ route('admin-index') }}" class="btn btn-warning m-2" >Back</a>
   </div>
    
     </section>

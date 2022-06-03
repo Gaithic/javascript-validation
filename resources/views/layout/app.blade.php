@@ -14,8 +14,8 @@
   <link rel="stylesheet" href="{{ asset('/asset/admin/dist/css/adminlte.min.css') }}">
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="{{ asset('/asset/admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
-  {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"> --}}
   <link href="{{asset('/asset/css/toaster.css') }}" rel="stylesheet">
+  <link href="{{asset('/asset/css/admin.css') }}" rel="stylesheet">
   <link href="{{asset('/asset/css/datatable.css') }}" rel="stylesheet">
   <script src="{{(asset('/asset/ajax/ajax.js'))}}"></script>
 
@@ -43,7 +43,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 <script src="{{asset('/asset/js/toaster.js') }}"></script>
 <script src="{{asset('/asset/js/jquerydatatable.js') }}"></script>
-{{-- <script src="{{asset('/asset/js/datatables.js') }}"></script> --}}
+<script src="{{asset('/asset/js/datatables.js') }}"></script>
 <script src="{{ asset('/asset/admin/plugins/chart.js/Chart.min.js') }}"></script>
 
 @stack('scripts')
@@ -60,19 +60,7 @@
     });
 
 </script>
-<script>
-  $(document).ready(function(){
-      $(".nav .nav-link").on("click", function(){
-      // // alert('hello');
-      $(".nav-item").find(".active").removeClass("active");
-      $(this).addClass("active");
-          $(".nav-item").on("click", function(){
-              $("nav-item").find(".active").removeClass("active");
-              $(this).addClass("active");
-          });         
-    });
-  });
-</script>
+
 
 
 @stack('scripts')
